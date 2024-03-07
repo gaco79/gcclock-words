@@ -14,7 +14,6 @@ import {
   PropertyValues,
   TemplateResult,
 } from 'lit-element';
-import localForage from 'localforage/src/localforage';
 
 import {
   CARD_VERSION,
@@ -30,9 +29,8 @@ import {
 } from './const';
 import style from './style';
 import { CardConfig } from './types/config';
-import { unwrap, wrap } from './utils';
 
-function loadCSS(url) {
+function loadCSS(url): void {
   const link = document.createElement('link');
   link.type = 'text/css';
   link.rel = 'stylesheet';
@@ -62,7 +60,7 @@ export class GcClockWords extends LitElement {
   @internalProperty() private config!: CardConfig;
   @internalProperty() private sensor?: HassEntity;
 
-  @internalProperty() private lastUpdateMinutes: Number = 0;
+  @internalProperty() private lastUpdateMinutes = 0;
   @internalProperty() private currentTime!: number[];
 
   /**
@@ -131,7 +129,7 @@ export class GcClockWords extends LitElement {
     this.updateData();
   }
 
-  private updateData() {
+  private updateData(): void {
     if (this.sensor == undefined) return;
 
     this.currentTime = this.sensor.state.split(':').map(Number);
@@ -155,7 +153,7 @@ export class GcClockWords extends LitElement {
   }
 
   private isDirection(direction: string): string {
-    let minutes = this.currentTime[1];
+    const minutes = this.currentTime[1];
 
     if (direction == 'past' && minutes > 2 && minutes < 28) return 'active';
     if (direction == 'to' && minutes > 32 && minutes < 58) return 'active';
@@ -163,8 +161,8 @@ export class GcClockWords extends LitElement {
     return '';
   }
 
-  private isMinute(minute: Number): string {
-    let time = this.currentTime[1];
+  private isMinute(minute: number): string {
+    const time = this.currentTime[1];
 
     if (this.between(time, 0, 2) && minute == 0) return 'active';
     if (this.between(time, 3, 8) && minute == 5) return 'active';
@@ -183,7 +181,7 @@ export class GcClockWords extends LitElement {
     return '';
   }
 
-  private between(x, min, max) {
+  private between(x, min, max): boolean {
     return x >= min && x <= max;
   }
 
