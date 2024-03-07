@@ -187,10 +187,6 @@ export class GcClockWords extends LitElement {
     return x >= min && x <= max;
   }
 
-  private getCurrentTime() {
-    return this.currentTime;
-  }
-
   /**
    * Rendering
    */
@@ -226,7 +222,6 @@ export class GcClockWords extends LitElement {
           <span class="word ${this.isHour(12)}">twelve</span><span class="word ${this.isMinute(0)}">o'clock</span>
         </div>
       </div>
-      <div>${this.getCurrentTime().join(':')}</div>
     `;
   }
 
