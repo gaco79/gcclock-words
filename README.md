@@ -1,4 +1,4 @@
-# Uptime Card
+# Word Clock
 
 <p align="center">
   <a href="https://github.com/custom-components/hacs">
