@@ -1,5 +1,5 @@
 {
-    "name": "Uptime Card",
-    "render_readme": true,
-    "filename": "uptime-card.js"
+  "name": "gcClock Words",
+  "render_readme": true,
+  "filename": "gcclock-words.js"
 }
