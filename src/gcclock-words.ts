@@ -15,18 +15,7 @@ import {
   TemplateResult,
 } from 'lit-element';
 
-import {
-  CARD_VERSION,
-  DEFAULT_ACTION,
-  DEFAULT_ALIGNMENT,
-  DEFAULT_BAR,
-  DEFAULT_CLIP,
-  DEFAULT_COLOR,
-  DEFAULT_CONFIG,
-  DEFAULT_INIT,
-  DEFAULT_SHOW,
-  DEFAULT_TOOLTIP,
-} from './const';
+import { CARD_VERSION, DEFAULT_COLOR, DEFAULT_CONFIG } from './const';
 import style from './style';
 import { CardConfig } from './types/config';
 
@@ -52,9 +41,9 @@ console.info(`%c gcclock-words \n   ${CARD_VERSION}    `, 'color: white; backgro
 
 @customElement('gcclock-words')
 export class GcClockWords extends LitElement {
-  public static async getConfigElement(): Promise<LovelaceCardEditor> {
-    return document.createElement('uptime-card-editor');
-  }
+  //public static async getConfigElement(): Promise<LovelaceCardEditor> {
+  //  return document.createElement('gcclock-words-editor');
+  //}
 
   @property({ attribute: false }) public _hass!: HomeAssistant;
   @internalProperty() private config!: CardConfig;
@@ -97,22 +86,7 @@ export class GcClockWords extends LitElement {
     this.config = {
       ...DEFAULT_CONFIG,
       ...config,
-      color: { ...DEFAULT_COLOR, ...config.color },
-      alias: { ...config.alias },
-      show: { ...DEFAULT_SHOW, ...config.show },
-      bar: { ...DEFAULT_BAR, ...config.bar },
-      tooltip: { ...DEFAULT_TOOLTIP, ...config.tooltip },
-      tap_action: { ...DEFAULT_ACTION, ...config.tap_action },
-      alignment: { ...DEFAULT_ALIGNMENT, ...config.alignment },
-      init: { ...DEFAULT_INIT, ...config.init },
-      clip: { ...DEFAULT_CLIP, ...config.clip },
     };
-
-    if (typeof this.config.ok == 'string') this.config.ok = [this.config.ok];
-    if (typeof this.config.ko == 'string') this.config.ko = [this.config.ko];
-
-    if (this.config.ok != undefined) this.config.ok = this.config.ok.map(s => s.toString());
-    if (this.config.ko != undefined) this.config.ko = this.config.ko.map(s => s.toString());
 
     this.updateData();
   }

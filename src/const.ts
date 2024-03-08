@@ -33,13 +33,6 @@ export const DEFAULT_SHOW = {
   average: true,
 };
 
-export const DEFAULT_BAR = {
-  height: 46,
-  round: 1,
-  spacing: 4,
-  amount: 36,
-};
-
 export const DEFAULT_TOOLTIP = {
   hour24: false,
   template:

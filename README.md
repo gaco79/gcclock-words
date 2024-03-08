@@ -21,7 +21,7 @@
   <img src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock.png" />
 </p>
 
-## Install 🏠
+## 💾 Install 🏠
 
 :warning: This card is under active development, is not very stable, and may still have many bugs. Please create an issue if you encounter a bug or have a feature request.
 
@@ -35,7 +35,9 @@ This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community St
 2. Add the resource reference inside your `configuration.yaml` with URL `/local/gcclock-words.js` and type `module`.
 3. Add the custom card to your panel and 🚀.
 
-## Configuration ⚙️
+## 📐 Configuration
+
+In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to find "Custom: Time In Words". The card is in an early stage of development, and so there are no configurations options available yet.
 
 ### Inspiration
 
