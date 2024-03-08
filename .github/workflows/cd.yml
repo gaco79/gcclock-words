@@ -46,7 +46,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist/uptime-card.js
+          file: dist/gcclock-words.js
           tag: ${{ github.ref }}
           release_name: 'Release v${{ env.RELEASE_VERSION }}'
           body: ${{ steps.release.outputs.RELEASE_BODY }}

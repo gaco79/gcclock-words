@@ -1,4 +1,4 @@
-# Uptime Card
+# Word Clock
 
 <p align="center">
   <a href="https://github.com/custom-components/hacs">
@@ -39,4 +39,4 @@ This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community St
 
 ### Inspiration
 
-This repository is inspired by [uptime-card](https://github.com/dylandoamaral/uptime-card) and [chrisdothtml's codepen](https://codepen.io/chrisdothtml/pen/BQbzoQ).
+This repository is inspired by [chrisdothtml's codepen](https://codepen.io/chrisdothtml/pen/BQbzoQ) and was initially based on code and development environment from [uptime-card](https://github.com/dylandoamaral/uptime-card).

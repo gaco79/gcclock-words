@@ -1,18 +1,17 @@
 {
-  "name": "uptime-card",
-  "version": "1.3.2",
+  "name": "gcclock-words",
+  "version": "0.0.1",
   "description": "Minimalistic uptime card for Home Assistant Lovelace UI",
   "keywords": [
     "home-assistant",
     "homeassistant",
     "hass",
-    "automation",
     "lovelace",
     "custom-cards"
   ],
-  "module": "uptime-card.js",
-  "repository": "https://github.com/dylandoamaral/uptime-card",
-  "author": "Dylan Do Amaral <do.amaral.dylan@gmail.com>",
+  "module": "gcclock-words.js",
+  "repository": "https://github.com/gaco79/gcclock-words",
+  "author": "Gareth Cooper <gareth@garethcooper.com>",
   "license": "MIT",
   "dependencies": {
     "concurrently": "^7.0.0",
