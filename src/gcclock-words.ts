@@ -29,7 +29,7 @@ function loadCSS(url): void {
 loadCSS('https://fonts.googleapis.com/css?family=Titillium+Web:700');
 
 /* eslint no-console: 0 */
-console.info(`%c gcclock-words \n   ${CARD_VERSION}    `, 'color: white; background-color: #C6B145; font-weight: 700;');
+console.info(`%c gcclock-words ${CARD_VERSION}`, 'color: white; background-color: #C6B145; font-weight: 700;');
 
 // This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];

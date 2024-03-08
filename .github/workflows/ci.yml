@@ -1,4 +1,4 @@
-name: Uptime Card Continuous Integration
+name: gcClock Words Continuous Integration
 
 on:
   push:

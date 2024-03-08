@@ -1,4 +1,4 @@
-name: Uptime Card Continuous Deployment
+name: gcClock Words Continuous Deployment
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
           r="${r//'%'/'%25'}"     # Multiline escape sequences for %
           r="${r//$'\n'/'%0A'}"   # Multiline escape sequences for '\n'
           r="${r//$'\r'/'%0D'}"   # Multiline escape sequences for '\r'
-          run: echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT
+          echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT
       - name: Build the file
         run: |
           npm install
