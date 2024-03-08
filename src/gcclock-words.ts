@@ -63,13 +63,14 @@ export class GcClockWords extends LitElement {
   @internalProperty() private lastUpdateMinutes = 0;
   @internalProperty() private currentTime!: number[];
 
+  dateTime = new Date();
+
   /**
    * Called when the state of Home Assistant changes (frequent).
    * @param config The new hass.
    */
   public set hass(hass: HomeAssistant) {
-    this.sensor = hass.states['time.time'];
-    this.currentTime = this.sensor.state.split(':').map(Number);
+    this.updateData();
 
     if (this.currentTime[1] == this.lastUpdateMinutes) return;
 
@@ -126,13 +127,12 @@ export class GcClockWords extends LitElement {
 
   protected firstUpdated(changedProps: PropertyValues): void {
     changedProps;
+
     this.updateData();
   }
 
   private updateData(): void {
-    if (this.sensor == undefined) return;
-
-    this.currentTime = this.sensor.state.split(':').map(Number);
+    this.currentTime = [this.dateTime.getHours(), this.dateTime.getMinutes()];
   }
 
   public connectedCallback(): void {
