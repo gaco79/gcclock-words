@@ -1,285 +1,149 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/camelcase */
+import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
 import { fireEvent, HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
-import {
-  css,
-  CSSResult,
-  customElement,
-  html,
-  internalProperty,
-  LitElement,
-  property,
-  TemplateResult,
-} from 'lit-element';
+import { css, CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { customElement, property, state } from 'lit/decorators';
 
-import {
-  DEFAULT_ACTION,
-  DEFAULT_ALIGNMENT,
-  DEFAULT_CLIP,
-  DEFAULT_COLOR,
-  DEFAULT_CONFIG,
-  DEFAULT_INIT,
-  DEFAULT_SHOW,
-  DEFAULT_TOOLTIP,
-} from './const';
-import { CardConfig } from './types/config';
-import {
-  DropdownProperty,
-  InputProperty,
-  NumberProperty,
-  Option,
-  Property,
-  SwitchProperty,
-  UnionProperty,
-} from './types/editor';
+import { GcclockWordsCardConfig } from './types/config';
 
 @customElement('gcclock-words-editor')
-export class GcclockWordsEditor extends LitElement implements LovelaceCardEditor {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
-  @internalProperty() private _config?: CardConfig;
-  @internalProperty() private _toggle?: boolean;
-  @internalProperty() private _helpers?: any;
-  @internalProperty() private options?: { [id: string]: Option };
-  private _initialized = false;
 
-  public setConfig(config: CardConfig): void {
+  @state() private _config?: GcclockWordsCardConfig;
+
+  public setConfig(config: GcclockWordsCardConfig): void {
     this._config = config;
-
-    this.loadCardHelpers();
   }
 
-  protected shouldUpdate(): boolean {
-    if (!this._initialized) {
-      this._initialize();
-    }
-
-    return true;
+  get _room_name(): string {
+    return this._config?.room_name ?? '';
   }
 
-  protected render(): TemplateResult {
-    if (!this.hass || !this._helpers || !this.options) {
+  get _temperature_sensor(): string {
+    return this._config?.temperature_sensor ?? '';
+  }
+
+  get _humidity_sensor(): string {
+    return this._config?.humidity_sensor ?? '';
+  }
+
+  get _degree_fahrenheit(): boolean {
+    return this._config?.degree_fahrenheit ?? false;
+  }
+
+  get _show_index(): string {
+    return this._config?.show_index ?? 'ALL';
+  }
+
+  protected render(): TemplateResult | void {
+    if (!this.hass) {
       return html``;
     }
 
-    this._helpers.importMoreInfoControl('climate');
+    const hass_devices = this.hass.states;
+    const tempSensors: string[] = [];
+    Object.keys(hass_devices)
+      .filter(eid => eid.startsWith('sensor', 0))
+      .sort((a, b) => a.localeCompare(b))
+      .forEach(function(k) {
+        if (hass_devices[k].attributes.device_class === 'temperature') {
+          tempSensors.push(k);
+        }
+      });
+    const humSensors: string[] = [];
+    Object.keys(hass_devices)
+      .filter(eid => eid.startsWith('sensor', 0))
+      .sort((a, b) => a.localeCompare(b))
+      .forEach(function(k) {
+        if (hass_devices[k].attributes.device_class === 'humidity') {
+          humSensors.push(k);
+        }
+      });
 
     return html`
-      <div class="card-config">
-        ${Object.entries(this.options).map(option => this.renderOption(option[0], option[1]))}
-      </div>
-    `;
-  }
+      <ha-textfield
+        label="Room name"
+        .value=${this._room_name}
+        .configValue=${'room_name'}
+        @input=${this._valueChanged}
+      ></ha-textfield>
 
-  private renderOption(key: string, option: Option): TemplateResult {
-    return html`
-      <div class="option" @click=${this._toggleOption} .option=${key}>
-        <div class="row">
-          <ha-icon .icon=${`mdi:${option.icon}`}></ha-icon>
-          <div class="title">${option.name}</div>
-        </div>
-        <div class="secondary">${option.description}</div>
-      </div>
-
-      ${option.show
-        ? html`
-            <div class="values">
-              ${option.properties.map(property => this.renderProperty(property))}
-            </div>
-          `
-        : ''}
-    `;
-  }
-
-  private renderProperty(property: UnionProperty): TemplateResult {
-    if (property.type == 'input') return this.renderInputProperty(property);
-    if (property.type == 'number') return this.renderNumberProperty(property);
-    if (property.type == 'dropdown') return this.renderDropdownProperty(property);
-    if (property.type == 'switch') return this.renderSwitchProperty(property);
-    return html``;
-  }
-
-  private renderInputProperty(property: InputProperty): TemplateResult {
-    return html`
-      <paper-input
-        label=${property.label}
-        placeholder=${property.default || ''}
-        .value=${this.getPropertyValue(property)}
-        .configValue=${property.name}
-        .configSection=${property.section}
-        @value-changed=${this._valueChanged}
-      ></paper-input>
-    `;
-  }
-
-  private renderNumberProperty(property: NumberProperty): TemplateResult {
-    return html`
-      <paper-input
-        label=${property.label}
-        placeholder=${property.default || ''}
-        .value=${this.getPropertyValue(property)}
-        .configValue=${property.name}
-        .configSection=${property.section}
-        .number=${true}
-        @value-changed=${this._valueChanged}
-        min=${property.min}
-        max=${property.max}
-        type="number"
-      ></paper-input>
-    `;
-  }
-
-  private renderSwitchProperty(property: SwitchProperty): TemplateResult {
-    const checked = this.getPropertyValue(property);
-    return html`
-      <br />
-      <ha-formfield .label=${property.label}>
-        <ha-switch
-          .checked=${checked != undefined ? checked : property.default != undefined ? property.default : false}
-          .configValue=${property.name}
-          .configSection=${property.section}
-          @change=${this._valueChanged}
-        ></ha-switch>
-      </ha-formfield>
-    `;
-  }
-
-  private renderDropdownProperty(property: DropdownProperty): TemplateResult {
-    return html`
-      <paper-dropdown-menu
-        label=${property.label}
-        .value=${this.getPropertyValue(property) || property.default || ''}
-        @value-changed=${this._valueChanged}
-        .configValue=${property.name}
-        .configSection=${property.section}
+      <ha-select
+        naturalMenuWidth
+        fixedMenuPosition
+        label="Temp Sensor"
+        .configValue=${'temperature_sensor'}
+        .value=${this._temperature_sensor}
+        @selected=${this._valueChanged}
+        @closed=${ev => ev.stopPropagation()}
       >
-        <paper-listbox slot="dropdown-content" .selected=${property.selected}>
-          ${property.items.map(item => {
-            return html`
-              <paper-item>${item}</paper-item>
-            `;
-          })}
-        </paper-listbox>
-      </paper-dropdown-menu>
+        ${tempSensors.map(entity => {
+          return html`
+            <mwc-list-item .value=${entity}>${entity}</mwc-list-item>
+          `;
+        })}
+      </ha-select>
+
+      <ha-select
+        naturalMenuWidth
+        fixedMenuPosition
+        label="Humidity sensor"
+        .configValue=${'humidity_sensor'}
+        .value=${this._humidity_sensor}
+        @selected=${this._valueChanged}
+        @closed=${ev => ev.stopPropagation()}
+      >
+        ${humSensors.map(entity => {
+          return html`
+            <mwc-list-item .value=${entity}>${entity}</mwc-list-item>
+          `;
+        })}
+      </ha-select>
+
+      <ha-select
+        naturalMenuWidth
+        fixedMenuPosition
+        label="show index"
+        .configValue=${'show_index'}
+        .value=${this._show_index}
+        @selected=${this._valueChanged}
+        @closed=${ev => ev.stopPropagation()}
+      >
+        ${['ALL', 'HI', 'DI'].map(entity => {
+          return html`
+            <mwc-list-item .value=${entity}>${entity}</mwc-list-item>
+          `;
+        })}
+      </ha-select>
     `;
   }
 
-  private getPropertyValue(property: Property): any {
-    if (this._config == undefined) return undefined;
-    const parent = property.section ? this._config[property.section] : this._config;
-    if (parent == undefined) return undefined;
-    return parent[property.name];
-  }
-
-  private _initialize(): void {
-    if (this.hass === undefined) return;
-    if (this._config === undefined) return;
-    if (this._helpers === undefined) return;
-    this._initialized = true;
-
-    const entities = Object.keys(this.hass.states);
-    const actions = ['more-info', 'url', 'navigate', 'toggle', 'call-service', 'fire-dom-event'];
-    const haptics = ['success', 'warning', 'failure', 'light', 'medium', 'heavy', 'selection'];
-    const alignments = ['center', 'right', 'left', 'spaced'];
-    const effects = ['fade', 'shadow'];
-    const targets = ['card', 'status', 'title', 'icon'];
-    const animations = ['none', 'raise', 'reveal', 'slide'];
-
-    this.options = {
-      mandatory: {
-        icon: 'tune',
-        name: 'Mandatory',
-        description: 'Required options for this card to function',
-        show: true,
-        properties: [
-          {
-            type: 'input',
-            name: 'icon',
-            label: 'Icon',
-          },
-        ],
-      },
-    };
-  }
-
-  private async loadCardHelpers(): Promise<void> {
-    this._helpers = await (window as any).loadCardHelpers();
-  }
-
-  private _toggleOption(ev): void {
-    if (this.options == undefined) return undefined;
-
-    const show = !this.options[ev.target.option].show;
-    for (const [key] of Object.entries(this.options)) {
-      this.options[key].show = false;
-    }
-    this.options[ev.target.option].show = show;
-    this._toggle = !this._toggle;
-  }
+  static styles: CSSResultGroup = css``;
 
   private _valueChanged(ev): void {
     if (!this._config || !this.hass) {
       return;
     }
     const target = ev.target;
-    const section = target.configSection;
-    const config = { ...this._config };
-    const parent = (section ? { ...config[section] } : config) || {};
-
+    if (this[`_${target.configValue}`] === target.value) {
+      return;
+    }
     if (target.configValue) {
-      if ((target.value === undefined && target.checked === undefined) || target.value === '') {
-        delete parent[target.configValue];
-        if (section) this._config = { ...config, [section]: parent };
-        else this._config = { ...parent };
+      if (target.value === '') {
+        const tmpConfig = { ...this._config };
+        delete tmpConfig[target.configValue];
+        this._config = tmpConfig;
       } else {
-        const key = target.configValue;
-        const rawValue = target.checked !== undefined ? target.checked : target.value;
-        const value = target.number ? parseFloat(rawValue) : rawValue;
-
-        if (section) {
-          this._config = {
-            ...config,
-            [section]: { ...config[section], [key]: value },
-          };
-        } else {
-          this._config = {
-            ...config,
-            [key]: value,
-          };
-        }
+        this._config = {
+          ...this._config,
+          [target.configValue]: target.checked !== undefined ? target.checked : target.value,
+        };
       }
     }
     fireEvent(this, 'config-changed', { config: this._config });
-  }
-
-  static get styles(): CSSResult {
-    return css`
-      .option {
-        padding: 4px 0px;
-        cursor: pointer;
-      }
-      .row {
-        display: flex;
-        margin-bottom: -14px;
-        pointer-events: none;
-      }
-      .title {
-        padding-left: 16px;
-        margin-top: -6px;
-        pointer-events: none;
-      }
-      .secondary {
-        padding-left: 40px;
-        color: var(--secondary-text-color);
-        pointer-events: none;
-      }
-      .values {
-        padding-left: 16px;
-        background: var(--secondary-background-color);
-        display: grid;
-      }
-      ha-formfield {
-        padding-bottom: 8px;
-      }
-    `;
   }
 }

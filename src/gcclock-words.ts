@@ -8,16 +8,16 @@ import {
   CSSResult,
   customElement,
   html,
-  internalProperty,
   LitElement,
   property,
   PropertyValues,
+  state,
   TemplateResult,
 } from 'lit-element';
 
-import { CARD_VERSION, DEFAULT_COLOR, DEFAULT_CONFIG } from './const';
+import { CARD_VERSION, DEFAULT_CONFIG } from './const';
 import style from './style';
-import { CardConfig } from './types/config';
+import { GcclockWordsCardConfig } from './types/config';
 
 function loadCSS(url): void {
   const link = document.createElement('link');
@@ -41,16 +41,16 @@ console.info(`%c gcclock-words ${CARD_VERSION}`, 'color: white; background-color
 
 @customElement('gcclock-words')
 export class GcClockWords extends LitElement {
-  //public static async getConfigElement(): Promise<LovelaceCardEditor> {
-  //  return document.createElement('gcclock-words-editor');
-  //}
+  public static async getConfigElement(): Promise<LovelaceCardEditor> {
+    return document.createElement('gcclock-words-editor');
+  }
 
   @property({ attribute: false }) public _hass!: HomeAssistant;
-  @internalProperty() private config!: CardConfig;
-  @internalProperty() private sensor?: HassEntity;
+  @state() private config!: GcclockWordsCardConfig;
+  @state() private sensor?: HassEntity;
 
-  @internalProperty() private lastUpdateMinutes = 0;
-  @internalProperty() private currentTime!: number[];
+  @state() private lastUpdateMinutes = 0;
+  @state() private currentTime!: number[];
 
   dateTime = new Date();
 
@@ -78,7 +78,7 @@ export class GcClockWords extends LitElement {
    * Called when the configuration change (rare).
    * @param config The new config.
    */
-  public setConfig(config: CardConfig): void {
+  public setConfig(config: GcclockWordsCardConfig): void {
     if (!config) {
       throw new Error('Invalid configuration !');
     }
