@@ -56,7 +56,7 @@ export class GcClockWords extends LitElement {
 
   /**
    * Called when the state of Home Assistant changes (frequent).
-   * @param config The new hass.
+   * @param hass The new hass.
    */
   public set hass(hass: HomeAssistant) {
     this.updateData();
@@ -87,6 +87,8 @@ export class GcClockWords extends LitElement {
       ...DEFAULT_CONFIG,
       ...config,
     };
+
+    console.log('setConfig', this.config);
 
     this.updateData();
   }
@@ -164,16 +166,16 @@ export class GcClockWords extends LitElement {
    * Rendering
    */
   protected render(): TemplateResult {
-    console.log('before', style.styleSheet?.cssRules);
     if (style.styleSheet?.cssRules[0]['selectorText'] == this.cssTextHighlightColorSelector) {
       style.styleSheet.deleteRule(0);
-      console.log('deleterule');
     }
+
     style.styleSheet?.insertRule(`
       ${this.cssTextHighlightColorSelector} {
         color: ${this._highlightTextColor};
         text-shadow: 0px 0px 10px ${this._highlightTextColor};
       }`);
+
     console.log('after', style.styleSheet?.cssRules[0]);
 
     return html`
