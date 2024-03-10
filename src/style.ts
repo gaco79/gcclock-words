@@ -29,7 +29,6 @@ const style = css`
   }
   .gcclock-words .line .word.active {
     opacity: 1;
-    text-shadow: 0px 0px 10px var(--mdc-theme-primary);
   }
 `;
 

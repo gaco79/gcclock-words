@@ -159,12 +159,22 @@ export class GcClockWords extends LitElement {
     return x >= min && x <= max;
   }
 
+  cssTextHighlightColorSelector: string = '.gcclock-words .line .word.active';
   /**
    * Rendering
    */
   protected render(): TemplateResult {
-    console.log(this._highlightTextColor);
-    style.styleSheet?.insertRule(`.gcclock-words .line .word.active {color:${this._highlightTextColor};}`);
+    console.log('before', style.styleSheet?.cssRules);
+    if (style.styleSheet?.cssRules[0]['selectorText'] == this.cssTextHighlightColorSelector) {
+      style.styleSheet.deleteRule(0);
+      console.log('deleterule');
+    }
+    style.styleSheet?.insertRule(`
+      ${this.cssTextHighlightColorSelector} {
+        color: ${this._highlightTextColor};
+        text-shadow: 0px 0px 10px ${this._highlightTextColor};
+      }`);
+    console.log('after', style.styleSheet?.cssRules[0]);
 
     return html`
       <ha-card class="gcclock-words">
