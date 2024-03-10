@@ -159,7 +159,7 @@ export class GcClockWords extends LitElement {
     return x >= min && x <= max;
   }
 
-  cssTextHighlightColorSelector: string = '.gcclock-words .line .word.active';
+  cssTextHighlightColorSelector = '.gcclock-words .line .word.active';
   /**
    * Rendering
    */
@@ -210,7 +210,7 @@ export class GcClockWords extends LitElement {
     `;
   }
 
-  get _highlightTextColor() {
+  get _highlightTextColor(): string {
     return this.config.highlight_text_color ?? 'var(--mdc-theme-primary)';
   }
 

@@ -20,8 +20,6 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
   }
 
   get _highlight_text_color(): string {
-    console.log('get color', this._config?.highlight_text_color);
-
     return this._config?.highlight_text_color ?? 'var(--mdc-theme-primary)';
   }
 
@@ -58,7 +56,6 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
     }
 
     const target = ev.target;
-    console.log('valueChanged', target.value);
 
     if (this[`_${target.configValue}`] === target.value) {
       return;
