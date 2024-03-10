@@ -19,24 +19,10 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
     this._config = config;
   }
 
-  get _room_name(): string {
-    return this._config?.room_name ?? '';
-  }
+  get _highlight_text_color(): string {
+    console.log('get color', this._config?.highlight_text_color);
 
-  get _temperature_sensor(): string {
-    return this._config?.temperature_sensor ?? '';
-  }
-
-  get _humidity_sensor(): string {
-    return this._config?.humidity_sensor ?? '';
-  }
-
-  get _degree_fahrenheit(): boolean {
-    return this._config?.degree_fahrenheit ?? false;
-  }
-
-  get _show_index(): string {
-    return this._config?.show_index ?? 'ALL';
+    return this._config?.highlight_text_color ?? '';
   }
 
   protected render(): TemplateResult | void {
@@ -44,81 +30,23 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
       return html``;
     }
 
-    const hass_devices = this.hass.states;
-    const tempSensors: string[] = [];
-    Object.keys(hass_devices)
-      .filter(eid => eid.startsWith('sensor', 0))
-      .sort((a, b) => a.localeCompare(b))
-      .forEach(function(k) {
-        if (hass_devices[k].attributes.device_class === 'temperature') {
-          tempSensors.push(k);
-        }
-      });
-    const humSensors: string[] = [];
-    Object.keys(hass_devices)
-      .filter(eid => eid.startsWith('sensor', 0))
-      .sort((a, b) => a.localeCompare(b))
-      .forEach(function(k) {
-        if (hass_devices[k].attributes.device_class === 'humidity') {
-          humSensors.push(k);
-        }
-      });
-
     return html`
-      <ha-textfield
-        label="Room name"
-        .value=${this._room_name}
-        .configValue=${'room_name'}
-        @input=${this._valueChanged}
-      ></ha-textfield>
-
-      <ha-select
-        naturalMenuWidth
-        fixedMenuPosition
-        label="Temp Sensor"
-        .configValue=${'temperature_sensor'}
-        .value=${this._temperature_sensor}
-        @selected=${this._valueChanged}
-        @closed=${ev => ev.stopPropagation()}
-      >
-        ${tempSensors.map(entity => {
-          return html`
-            <mwc-list-item .value=${entity}>${entity}</mwc-list-item>
-          `;
-        })}
-      </ha-select>
-
-      <ha-select
-        naturalMenuWidth
-        fixedMenuPosition
-        label="Humidity sensor"
-        .configValue=${'humidity_sensor'}
-        .value=${this._humidity_sensor}
-        @selected=${this._valueChanged}
-        @closed=${ev => ev.stopPropagation()}
-      >
-        ${humSensors.map(entity => {
-          return html`
-            <mwc-list-item .value=${entity}>${entity}</mwc-list-item>
-          `;
-        })}
-      </ha-select>
-
-      <ha-select
-        naturalMenuWidth
-        fixedMenuPosition
-        label="show index"
-        .configValue=${'show_index'}
-        .value=${this._show_index}
-        @selected=${this._valueChanged}
-        @closed=${ev => ev.stopPropagation()}
-      >
-        ${['ALL', 'HI', 'DI'].map(entity => {
-          return html`
-            <mwc-list-item .value=${entity}>${entity}</mwc-list-item>
-          `;
-        })}
-      </ha-select>
+      <ha-card>
+        <div>
+          <h1 class="card-header">Colors</h1>
+          <input
+            type="color"
+            .value=${this._highlight_text_color}
+            .configValue=${'highlight_text_color'}
+            @input=${this._valueChanged}
+          />
+          <ha-textfield
+            .value=${this._highlight_text_color}
+            .configValue=${'highlight_text_color'}
+            @input=${this._valueChanged}
+          ></ha-textfield>
+        </div>
+      </ha-card>
     `;
   }
 
@@ -128,7 +56,10 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
     if (!this._config || !this.hass) {
       return;
     }
+
     const target = ev.target;
+    console.log('valueChanged', target.value);
+
     if (this[`_${target.configValue}`] === target.value) {
       return;
     }
@@ -140,7 +71,8 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
       } else {
         this._config = {
           ...this._config,
-          [target.configValue]: target.checked !== undefined ? target.checked : target.value,
+          //[target.configValue]: target.checked !== undefined ? target.checked : target.value,
+          [target.configValue]: target.value,
         };
       }
     }

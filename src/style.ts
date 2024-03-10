@@ -10,6 +10,7 @@ const style = css`
     box-shadow: var(--ha-card-box-shadow, none);
     border-radius: var(--ha-card-border-radius, 12px);
     border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+    border-width: var(--ha-card-border-width, 1px);
     border-style: solid;
   }
   .gcclock-words .line {
@@ -28,7 +29,6 @@ const style = css`
   }
   .gcclock-words .line .word.active {
     opacity: 1;
-    color: var(--mdc-theme-primary);
     text-shadow: 0px 0px 10px var(--mdc-theme-primary);
   }
 `;

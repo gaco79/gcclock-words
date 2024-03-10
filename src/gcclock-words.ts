@@ -163,8 +163,11 @@ export class GcClockWords extends LitElement {
    * Rendering
    */
   protected render(): TemplateResult {
+    console.log(this._highlightTextColor);
+    style.styleSheet?.insertRule(`.gcclock-words .line .word.active {color:${this._highlightTextColor};}`);
+
     return html`
-      <div class="gcclock-words">
+      <ha-card class="gcclock-words">
         <div class="line">
           <span class="word active">it's</span><span class="word ${this.isMinute(15)}">quarter</span
           ><span class="word ${this.isMinute(30)}">half</span>
@@ -193,8 +196,12 @@ export class GcClockWords extends LitElement {
         <div class="line">
           <span class="word ${this.isHour(12)}">twelve</span><span class="word ${this.isMinute(0)}">o'clock</span>
         </div>
-      </div>
+      </ha-card>
     `;
+  }
+
+  get _highlightTextColor() {
+    return this.config.highlight_text_color ?? 'var(--mdc-theme-primary)';
   }
 
   static get styles(): CSSResult {
