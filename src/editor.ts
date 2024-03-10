@@ -23,32 +23,65 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
     return this._config?.highlight_text_color ?? 'var(--mdc-theme-primary)';
   }
 
+  get _show_highlight_glow(): boolean {
+    return this._config?.show_highlight_glow ?? true;
+  }
+
   protected render(): TemplateResult | void {
     if (!this.hass) {
       return html``;
     }
 
     return html`
-      <ha-card>
+      <div>
+        <h1 class="card-header">Colors</h1>
+
         <div>
-          <h1 class="card-header">Colors</h1>
+          <label>Highlight Colour</label>
           <input
             type="color"
             .value=${this._highlight_text_color}
             .configValue=${'highlight_text_color'}
             @input=${this._valueChanged}
           />
-          <ha-textfield
-            .value=${this._highlight_text_color}
-            .configValue=${'highlight_text_color'}
-            @input=${this._valueChanged}
-          ></ha-textfield>
         </div>
-      </ha-card>
+
+        <div>
+          <label>Show Highlight Text Glow?</label>
+
+          <ha-checkbox
+            .checked=${this._show_highlight_glow}
+            .configValue=${'show_highlight_glow'}
+            @change=${this._checkboxChanged}
+          ></ha-checkbox>
+        </div>
+      </div>
     `;
   }
 
   static styles: CSSResultGroup = css``;
+
+  private _checkboxChanged(ev): void {
+    if (!this._config || !this.hass) {
+      return;
+    }
+
+    const target = ev.target;
+    console.log('chckbox chgd: target.checked', target.checked);
+
+    if (this[`_${target.configValue}`] === target.checked) {
+      return;
+    }
+
+    if (target.configValue) {
+      this._config = {
+        ...this._config,
+        [target.configValue]: target.checked,
+      };
+    }
+
+    fireEvent(this, 'config-changed', { config: this._config });
+  }
 
   private _valueChanged(ev): void {
     if (!this._config || !this.hass) {

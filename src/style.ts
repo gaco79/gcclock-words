@@ -27,9 +27,6 @@ const style = css`
     opacity: 0.1;
     transition: all 0.3s;
   }
-  .gcclock-words .line .word.active {
-    opacity: 1;
-  }
 `;
 
 export default style;
