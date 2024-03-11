@@ -125,6 +125,12 @@ export class GcClockWords extends LitElement {
     super.disconnectedCallback();
   }
 
+  // The height of your card. Home Assistant uses this to automatically
+  // distribute all cards over the available columns.
+  getCardSize() {
+    return 7;
+  }
+
   private isHour(hour: number): string {
     let timeHour = this.currentTime[0] % 12;
     if (timeHour == 0) timeHour = 12;
