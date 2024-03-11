@@ -3,12 +3,10 @@
 import './editor';
 
 import { hasConfigOrEntityChanged, HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
-import { HassEntity } from 'home-assistant-js-websocket';
 import {
   CSSResult,
   customElement,
   html,
-  internalProperty,
   LitElement,
   property,
   PropertyValues,
@@ -89,7 +87,7 @@ export class GcClockWords extends LitElement {
       ...config,
     };
 
-    console.log('config', this.config);
+    //console.log('config', this.config);
 
     this.updateData();
   }
@@ -127,7 +125,7 @@ export class GcClockWords extends LitElement {
 
   // The height of your card. Home Assistant uses this to automatically
   // distribute all cards over the available columns.
-  getCardSize() {
+  getCardSize(): number {
     return 7;
   }
 

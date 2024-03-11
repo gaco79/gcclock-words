@@ -8,6 +8,8 @@ import { customElement, property, state } from 'lit/decorators';
 
 import { GcclockWordsCardConfig } from './types/config';
 
+import('./color_hex');
+
 @customElement('gcclock-words-editor')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
@@ -27,85 +29,39 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
     return this._config?.show_highlight_glow ?? true;
   }
 
+  SCHEMA = [
+    {
+      name: 'highlight_text_color',
+      selector: { color_hex: {} },
+    },
+    { name: 'show_highlight_glow', selector: { boolean: {} } },
+  ];
+
+  private _computeLabel(): string {
+    return 'computelabel';
+  }
+
   protected render(): TemplateResult | void {
     if (!this.hass) {
       return html``;
     }
 
     return html`
-      <div>
-        <h1 class="card-header">Colors</h1>
-
-        <div>
-          <label>Highlight Colour</label>
-          <input
-            type="color"
-            .value=${this._highlight_text_color}
-            .configValue=${'highlight_text_color'}
-            @input=${this._valueChanged}
-          />
-        </div>
-
-        <div>
-          <label>Show Highlight Text Glow?</label>
-
-          <ha-checkbox
-            .checked=${this._show_highlight_glow}
-            .configValue=${'show_highlight_glow'}
-            @change=${this._checkboxChanged}
-          ></ha-checkbox>
-        </div>
-      </div>
+      <ha-form
+        .hass=${this.hass}
+        .data=${this._config}
+        .schema=${this.SCHEMA}
+        .computeLabel=${this._computeLabel}
+        @value-changed=${this._valueChanged}
+      ></ha-form>
     `;
   }
 
+  private _valueChanged(ev: CustomEvent): void {
+    console.log('ev', ev);
+    const config = ev.detail.value;
+    fireEvent(this, 'config-changed', { config });
+  }
+
   static styles: CSSResultGroup = css``;
-
-  private _checkboxChanged(ev): void {
-    if (!this._config || !this.hass) {
-      return;
-    }
-
-    const target = ev.target;
-    console.log('chckbox chgd: target.checked', target.checked);
-
-    if (this[`_${target.configValue}`] === target.checked) {
-      return;
-    }
-
-    if (target.configValue) {
-      this._config = {
-        ...this._config,
-        [target.configValue]: target.checked,
-      };
-    }
-
-    fireEvent(this, 'config-changed', { config: this._config });
-  }
-
-  private _valueChanged(ev): void {
-    if (!this._config || !this.hass) {
-      return;
-    }
-
-    const target = ev.target;
-
-    if (this[`_${target.configValue}`] === target.value) {
-      return;
-    }
-    if (target.configValue) {
-      if (target.value === '') {
-        const tmpConfig = { ...this._config };
-        delete tmpConfig[target.configValue];
-        this._config = tmpConfig;
-      } else {
-        this._config = {
-          ...this._config,
-          //[target.configValue]: target.checked !== undefined ? target.checked : target.value,
-          [target.configValue]: target.value,
-        };
-      }
-    }
-    fireEvent(this, 'config-changed', { config: this._config });
-  }
 }
