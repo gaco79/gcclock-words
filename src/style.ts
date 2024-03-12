@@ -10,7 +10,9 @@ const style = css`
     box-shadow: var(--ha-card-box-shadow, none);
     border-radius: var(--ha-card-border-radius, 12px);
     border-color: var(--ha-card-border-color, var(--divider-color, #e0e0e0));
+    border-width: var(--ha-card-border-width, 1px);
     border-style: solid;
+    container-type: inline-size;
   }
   .gcclock-words .line {
     display: flex;
@@ -18,18 +20,12 @@ const style = css`
   }
   .gcclock-words .line .word {
     font-family: 'Titillium Web', sans-serif;
-    font-size: 3rem;
+    font-size: 11.5cqw;
     line-height: 120%;
     color: var(--primary-text-color);
     text-transform: uppercase;
     display: block;
-    opacity: 0.1;
     transition: all 0.3s;
-  }
-  .gcclock-words .line .word.active {
-    opacity: 1;
-    color: var(--mdc-theme-primary);
-    text-shadow: 0px 0px 10px var(--mdc-theme-primary);
   }
 `;
 

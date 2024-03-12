@@ -21,7 +21,7 @@
   <img src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock.png" />
 </p>
 
-## 💾 Install 🏠
+## 💾 Install
 
 :warning: This card is under active development, is not very stable, and may still have many bugs. Please create an issue if you encounter a bug or have a feature request.
 
@@ -29,7 +29,11 @@
 
 This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community Store).
 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=gaco79&repository=gcclock-words&category=plugin)
+
 ### Manual install
+
+Not recommended.
 
 1. Download and copy `gcclock-words.js` from the [latest release](https://github.com/gaco79/gcclock-words/releases/latest) into your `config/www` directory.
 2. Add the resource reference inside your `configuration.yaml` with URL `/local/gcclock-words.js` and type `module`.
