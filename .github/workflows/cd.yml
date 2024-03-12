@@ -3,7 +3,7 @@ name: gcClock Words Continuous Deployment
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - '*.*.*'
   workflow_dispatch:
 
 jobs:
