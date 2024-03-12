@@ -52,6 +52,7 @@ export class GcClockWords extends LitElement {
 
   dateTime = new Date();
   @state() activeStyle!: string;
+  @state() inactiveStyle!: string;
 
   /**
    * Called when the state of Home Assistant changes (frequent).
@@ -89,6 +90,14 @@ export class GcClockWords extends LitElement {
 
     //console.log('config', this.config);
 
+    this.activeStyle = `color: ${this._highlightTextColor}; opacity: 1;`;
+
+    if (this.config.show_highlight_glow) {
+      this.activeStyle += ` text-shadow: 0px 0px 10px ${this._highlightTextColor};`;
+    }
+
+    this.inactiveStyle = `opacity: ${this._mutedTextBrightness};`;
+
     this.updateData();
   }
 
@@ -108,11 +117,6 @@ export class GcClockWords extends LitElement {
 
   private updateData(): void {
     this.currentTime = [this.dateTime.getHours(), this.dateTime.getMinutes()];
-    this.activeStyle = `color: ${this._highlightTextColor}; opacity: 1;`;
-
-    if (this.config.show_highlight_glow) {
-      this.activeStyle += ` text-shadow: 0px 0px 10px ${this._highlightTextColor};`;
-    }
   }
 
   public connectedCallback(): void {
@@ -135,7 +139,7 @@ export class GcClockWords extends LitElement {
 
     if (this.currentTime[1] > 32) timeHour++;
 
-    return timeHour == hour ? this.activeStyle : '';
+    return timeHour == hour ? this.activeStyle : this.inactiveStyle;
   }
 
   private isDirection(direction: string): string {
@@ -144,7 +148,7 @@ export class GcClockWords extends LitElement {
     if (direction == 'past' && minutes > 2 && minutes < 28) return this.activeStyle;
     if (direction == 'to' && minutes > 32 && minutes < 58) return this.activeStyle;
 
-    return '';
+    return this.inactiveStyle;
   }
 
   private isMinute(minute: number): string {
@@ -164,7 +168,7 @@ export class GcClockWords extends LitElement {
     if (this.between(time, 54, 57) && minute == 5) return this.activeStyle;
     if (this.between(time, 58, 60) && minute == 0) return this.activeStyle;
 
-    return '';
+    return this.inactiveStyle;
   }
 
   private between(x, min, max): boolean {
@@ -218,6 +222,10 @@ export class GcClockWords extends LitElement {
 
   get _highlightTextColor(): string {
     return this.config.highlight_text_color ?? DEFAULT_CONFIG.highlight_text_color;
+  }
+
+  get _mutedTextBrightness(): number {
+    return this.config.muted_text_brightness ?? DEFAULT_CONFIG.muted_text_brightness;
   }
 
   static get styles(): CSSResult {

@@ -29,16 +29,49 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
     return this._config?.show_highlight_glow ?? true;
   }
 
+  get _muted_text_brightness(): number {
+    return this._config?.muted_text_brightness ?? 0.2;
+  }
+
   SCHEMA = [
     {
-      name: 'highlight_text_color',
-      selector: { color_hex: {} },
+      name: '',
+      type: 'grid',
+      title: 'expandable',
+      iconPath: 'test',
+      schema: [
+        {
+          name: 'highlight_text_color',
+          selector: { color_hex: {} },
+        },
+        { name: 'show_highlight_glow', selector: { boolean: {} } },
+      ],
     },
-    { name: 'show_highlight_glow', selector: { boolean: {} } },
+    {
+      name: 'muted_text_brightness',
+      selector: {
+        number: {
+          min: 0,
+          max: 1,
+          step: 0.01,
+        },
+      },
+    },
   ];
 
-  private _computeLabel(): string {
-    return 'computelabel';
+  private _computeLabel(schema): string {
+    //console.log('schema', schema);
+
+    switch (schema.name) {
+      case 'highlight_text_color':
+        return 'Text Colour';
+      case 'show_highlight_glow':
+        return 'Text Glow?';
+      case 'muted_text_brightness':
+        return 'Muted Text Brightness';
+    }
+
+    return 'aubergine';
   }
 
   protected render(): TemplateResult | void {
@@ -58,7 +91,7 @@ export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implement
   }
 
   private _valueChanged(ev: CustomEvent): void {
-    console.log('ev', ev);
+    //console.log('ev', ev);
     const config = ev.detail.value;
     fireEvent(this, 'config-changed', { config });
   }

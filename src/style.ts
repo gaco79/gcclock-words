@@ -25,7 +25,6 @@ const style = css`
     color: var(--primary-text-color);
     text-transform: uppercase;
     display: block;
-    opacity: 0.1;
     transition: all 0.3s;
   }
 `;
