@@ -1,16 +1,9 @@
 # Word Clock
 
-<p align="center">
-  <a href="https://github.com/gaco79/gcclock-words">
-    <img src="https://img.shields.io/github/v/release/gaco79/gcclock-words" />
-  </a>
-  <a href="https://github.com/gaco79/gcclock-words">
-    <img src="https://img.shields.io/github/commit-activity/m/gaco79/gcclock-words" />
-  </a>
-  <a href="https://www.buymeacoffee.com/gaco79">
-    <img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow" />
-  </a>
-</p>
+![GitHub Release](https://img.shields.io/github/v/release/gaco79/gcclock-words) 
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/gaco79/gcclock-words)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gaco79/gcclock-words/cd.yml)
+[<img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow">](https://www.buymeacoffee.com/gaco79) 
 
 <p align="center">A clock for Home Assistant to show the time in words.</p>
 
