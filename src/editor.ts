@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/camelcase */
+import './color_hex';
+
 import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
 import { fireEvent, HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
 import { css, CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
@@ -7,8 +9,6 @@ import { css, CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators';
 
 import { GcclockWordsCardConfig } from './types/config';
-
-import('./color_hex');
 
 @customElement('gcclock-words-editor')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
