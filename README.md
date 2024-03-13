@@ -1,9 +1,6 @@
 # Word Clock
 
 <p align="center">
-  <a href="https://github.com/custom-components/hacs">
-    <img src="https://img.shields.io/badge/HACS-Default-orange.svg" />
-  </a>
   <a href="https://github.com/gaco79/gcclock-words">
     <img src="https://img.shields.io/github/v/release/gaco79/gcclock-words" />
   </a>
@@ -23,13 +20,13 @@
 
 ## 💾 Install
 
-:warning: This card is under active development, is not very stable, and may still have many bugs. Please create an issue if you encounter a bug or have a feature request.
+:warning: This card is under active development and may still have bugs. Future versions may introduce breaking changes. Please create an issue if you encounter a bug or have a feature request.
 
 ### HACS (recommended)
 
-This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community Store).
-
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=gaco79&repository=gcclock-words&category=plugin)
+
+I've submitted a PR to be included in the HACS default repository.
 
 ### Manual install
 
@@ -41,7 +38,7 @@ Not recommended.
 
 ## 📐 Configuration
 
-In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to find "Custom: Time In Words". The card is in an early stage of development, and so there are no configurations options available yet.
+In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to find "Custom: Time In Words". 
 
 ### Inspiration
 
