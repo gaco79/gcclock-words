@@ -117,6 +117,9 @@ export class GcClockWords extends LitElement {
 
   private updateData(): void {
     this.currentTime = [this.dateTime.getHours(), this.dateTime.getMinutes()];
+
+    // for testing
+    // this.currentTime = [0, 15];
   }
 
   public connectedCallback(): void {
@@ -135,9 +138,8 @@ export class GcClockWords extends LitElement {
 
   private isHour(hour: number): string {
     let timeHour = this.currentTime[0] % 12;
-    if (timeHour == 0) timeHour = 12;
-
     if (this.currentTime[1] > 32) timeHour++;
+    if (timeHour == 0) timeHour = 12;
 
     return timeHour == hour ? this.activeStyle : this.inactiveStyle;
   }
