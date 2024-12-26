@@ -46,7 +46,9 @@ export class ColorHexSelector extends LitElement {
   }
 
   private _valueChanged(ev: CustomEvent): void {
-    const value = (ev.target as any).value;
+    if (ev.target == null) return;
+
+    const value = (ev.target as HTMLTextAreaElement).value;
     fireEvent(this, 'value-changed', {
       value: value,
     });

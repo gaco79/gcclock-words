@@ -141,8 +141,6 @@ export class GcClockWords extends LitElement {
     if (this.currentTime[1] > 32) timeHour++;
     if (timeHour == 0) timeHour = 12;
 
-    console.log("timeHour", timeHour);
-
     return timeHour == hour ? this.activeStyle : this.inactiveStyle;
   }
 
