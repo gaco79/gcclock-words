@@ -13,25 +13,29 @@
 
 ## 💾 Install
 
-:warning: This card is under active development and may still have bugs. Future versions may introduce breaking changes. Please create an issue if you encounter a bug or have a feature request.
-
 ### HACS (recommended)
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=gaco79&repository=gcclock-words&category=plugin)
 
-I've submitted a PR to be included in the HACS default repository.
-
-### Manual install
-
-Not recommended.
+### Manual install (Not recommended)
 
 1. Download and copy `gcclock-words.js` from the [latest release](https://github.com/gaco79/gcclock-words/releases/latest) into your `config/www` directory.
-2. Add the resource reference inside your `configuration.yaml` with URL `/local/gcclock-words.js` and type `module`.
-3. Add the custom card to your panel and 🚀.
+2. Add the resource reference inside your `configuration.yaml` 
+```yaml
+lovelace:
+  mode: yaml
+  resources:
+    - url: /local/gcclock-words.js
+      type: module
+```
 
 ## 📐 Configuration
 
 In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to find "Custom: Time In Words". 
+
+## Alternatives
+
+I've also got an analogue clock Home Assistant card available [here](https://github.com/gaco79/clock-simple)
 
 ### Inspiration
 
