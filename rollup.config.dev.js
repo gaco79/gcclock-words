@@ -1,6 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
 import babel from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
+import resolve from '@rollup/plugin-node-resolve';
 
 export default {
   input: ['src/gcclock-words.ts'],
@@ -9,6 +10,7 @@ export default {
     format: 'es',
   },
   plugins: [
+    resolve(),
     typescript(),
     babel({
       exclude: 'node_modules/**',

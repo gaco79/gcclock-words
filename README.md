@@ -37,6 +37,15 @@ In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to fin
 
 I've also got an analogue clock Home Assistant card available [here](https://github.com/gaco79/clock-simple)
 
+## Development
+
+To develop the card:
+ * Clone this repository
+ * Run `docker compose up -d` from the cloned directory
+ * Run `npm start`
+ * Browse to `http://localhost:8123/` and configure your home assistant development build
+ * Add the card to a dashboard as described above
+
 ### Inspiration
 
 This repository is inspired by [chrisdothtml's codepen](https://codepen.io/chrisdothtml/pen/BQbzoQ) and was initially based on code and development environment from [uptime-card](https://github.com/dylandoamaral/uptime-card).

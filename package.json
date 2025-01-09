@@ -9,6 +9,7 @@
     "lovelace",
     "custom-cards"
   ],
+  "type": "module",
   "module": "gcclock-words.js",
   "repository": "https://github.com/gaco79/gcclock-words",
   "author": "Gareth Cooper <gareth@garethcooper.com>",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
     "eslint": "^9.17.0",
