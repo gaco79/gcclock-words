@@ -51,6 +51,7 @@ export class GcClockWords extends LitElement {
   @state() private currentTime!: number[];
 
   dateTime = new Date();
+  private timer?: number;
   @state() activeStyle!: string;
   @state() inactiveStyle!: string;
 
@@ -60,11 +61,7 @@ export class GcClockWords extends LitElement {
    */
   public set hass(hass: HomeAssistant) {
     this.updateData();
-
-    if (this.currentTime[1] == this.lastUpdateMinutes) return;
-
     this._hass = hass;
-    this.lastUpdateMinutes = this.currentTime[1];
   }
 
   /**
@@ -101,14 +98,6 @@ export class GcClockWords extends LitElement {
     this.updateData();
   }
 
-  protected shouldUpdate(changedProps: PropertyValues): boolean {
-    if (!this.config) {
-      return false;
-    }
-
-    return hasConfigOrEntityChanged(this, changedProps, false);
-  }
-
   protected firstUpdated(changedProps: PropertyValues): void {
     changedProps;
 
@@ -116,17 +105,32 @@ export class GcClockWords extends LitElement {
   }
 
   private updateData(): void {
+    this.dateTime = new Date();
     this.currentTime = [this.dateTime.getHours(), this.dateTime.getMinutes()];
 
-    // for testing
-    // this.currentTime = [0, 15];
+    // Only request update if minutes changed
+    if (this.currentTime[1] != this.lastUpdateMinutes) {
+      this.lastUpdateMinutes = this.currentTime[1];
+      this.requestUpdate();
+    }
   }
 
   public connectedCallback(): void {
     super.connectedCallback();
+    // Update time every 20 seconds
+    this.timer = window.setInterval(() => {
+      this.updateData();
+    }, 20000);
+
+    // Initial update
+    this.updateData();
   }
 
   public disconnectedCallback(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = undefined;
+    }
     super.disconnectedCallback();
   }
 
@@ -165,7 +169,7 @@ export class GcClockWords extends LitElement {
     if (this.between(time, 28, 32) && minute == 30) return this.activeStyle;
     if (this.between(time, 33, 37) && (minute == 20 || minute == 5)) return this.activeStyle;
     if (this.between(time, 38, 42) && minute == 20) return this.activeStyle;
-    if (this.between(time, 42, 47) && minute == 15) return this.activeStyle;
+    if (this.between(time, 43, 47) && minute == 15) return this.activeStyle;
     if (this.between(time, 48, 53) && minute == 10) return this.activeStyle;
     if (this.between(time, 54, 57) && minute == 5) return this.activeStyle;
     if (this.between(time, 58, 60) && minute == 0) return this.activeStyle;
