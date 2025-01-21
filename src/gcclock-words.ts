@@ -28,7 +28,7 @@ function loadCSS(url): void {
 loadCSS('https://fonts.googleapis.com/css?family=Titillium+Web:700');
 
 /* eslint no-console: 0 */
-console.info(`%c gcclock-words ${CARD_VERSION}`, 'color: white; background-color: #C6B145; font-weight: 700;');
+console.info(`%c gcclock-words ${CARD_VERSION}`, 'color: white; background-color:rgb(34, 110, 197); font-weight: 700;');
 
 // This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
@@ -50,7 +50,6 @@ export class GcClockWords extends LitElement {
   @state() private lastUpdateMinutes = 0;
   @state() private currentTime!: number[];
 
-  dateTime = new Date();
   private timer?: number;
   @state() activeStyle!: string;
   @state() inactiveStyle!: string;
@@ -85,8 +84,6 @@ export class GcClockWords extends LitElement {
       ...config,
     };
 
-    //console.log('config', this.config);
-
     this.activeStyle = `color: ${this._highlightTextColor}; opacity: 1;`;
 
     if (this.config.show_highlight_glow) {
@@ -98,19 +95,14 @@ export class GcClockWords extends LitElement {
     this.updateData();
   }
 
-  protected firstUpdated(changedProps: PropertyValues): void {
-    changedProps;
-
-    this.updateData();
-  }
-
   private updateData(): void {
-    this.dateTime = new Date();
-    this.currentTime = [this.dateTime.getHours(), this.dateTime.getMinutes()];
+    const dateTime = new Date();
+    this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
 
     // Only request update if minutes changed
     if (this.currentTime[1] != this.lastUpdateMinutes) {
       this.lastUpdateMinutes = this.currentTime[1];
+
       this.requestUpdate();
     }
   }
