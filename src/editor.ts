@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/camelcase */
 import './color_hex';
 
 import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';

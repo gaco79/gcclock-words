@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import './editor';
 
-import { hasConfigOrEntityChanged, HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
+import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
 import {
   CSSResult,
   customElement,
   html,
   LitElement,
   property,
-  PropertyValues,
   state,
   TemplateResult,
 } from 'lit-element';

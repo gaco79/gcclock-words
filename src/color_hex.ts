@@ -10,8 +10,7 @@ import { css, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit-element';
 
 export interface ColorRGBSelector {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  color_rgb: {} | null;
+  color_rgb: object | null;
 }
 
 @customElement('ha-selector-color_hex')
