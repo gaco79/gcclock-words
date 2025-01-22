@@ -7,11 +7,10 @@ https://github.com/home-assistant/frontend/blob/9e81055070da9b3b75513524d61bc3f9
 
 import { fireEvent, HomeAssistant } from 'custom-card-helpers';
 import { css, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit/decorators';
+import { customElement, property } from 'lit-element';
 
 export interface ColorRGBSelector {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  color_rgb: {} | null;
+  color_rgb: object | null;
 }
 
 @customElement('ha-selector-color_hex')

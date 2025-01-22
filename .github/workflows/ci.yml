@@ -2,7 +2,7 @@ name: gcClock Words Continuous Integration
 
 on:
   push:
-    branches: ['*']
+    branches: ['main', 'dev']
   pull_request:
     branches: ['*']
 

@@ -1,0 +1,14 @@
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - ./config:/config
+      - ./configuration.yaml:/config/configuration.yaml
+      - ./dist:/config/www/gcclock-words
+    ports:
+      - "8123:8123"
+    environment:
+      - TZ=Europe/London
