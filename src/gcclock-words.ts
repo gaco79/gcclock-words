@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import './editor';
+import { LINE_DEFS } from './lang';
 
 import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
 import { CSSResult, customElement, html, LitElement, property, state, TemplateResult } from 'lit-element';
@@ -122,88 +123,40 @@ export class GcClockWords extends LitElement {
     return 7;
   }
 
-  private isHour(hour: number): string {
-    let timeHour = this.currentTime[0] % 12;
-    if (this.currentTime[1] > 32) timeHour++;
-    if (timeHour == 0) timeHour = 12;
-
-    return timeHour == hour ? this.activeStyle : this.inactiveStyle;
+  private isHour(hour: boolean | number | number[], shift: number | undefined): boolean {
+    const now: number = (this.currentTime[0] + (shift && this.currentTime[1] >= shift ? 1 : 0)) % 12;
+    return hour === undefined ? true : (hour instanceof Array ? hour.indexOf(now) !== -1 : hour === now);
   }
 
-  private isDirection(direction: string): string {
-    const minutes = this.currentTime[1];
-
-    if (direction == 'past' && minutes > 2 && minutes < 28) return this.activeStyle;
-    if (direction == 'to' && minutes > 32 && minutes < 58) return this.activeStyle;
-
-    return this.inactiveStyle;
-  }
-
-  private isMinute(minute: number): string {
-    const time = this.currentTime[1];
-
-    if (this.between(time, 0, 2) && minute == 0) return this.activeStyle;
-    if (this.between(time, 3, 8) && minute == 5) return this.activeStyle;
-    if (this.between(time, 9, 13) && minute == 10) return this.activeStyle;
-    if (this.between(time, 14, 18) && minute == 15) return this.activeStyle;
-    if (this.between(time, 19, 23) && minute == 20) return this.activeStyle;
-    if (this.between(time, 24, 27) && (minute == 20 || minute == 5)) return this.activeStyle;
-    if (this.between(time, 28, 32) && minute == 30) return this.activeStyle;
-    if (this.between(time, 33, 37) && (minute == 20 || minute == 5)) return this.activeStyle;
-    if (this.between(time, 38, 42) && minute == 20) return this.activeStyle;
-    if (this.between(time, 43, 47) && minute == 15) return this.activeStyle;
-    if (this.between(time, 48, 53) && minute == 10) return this.activeStyle;
-    if (this.between(time, 54, 57) && minute == 5) return this.activeStyle;
-    if (this.between(time, 58, 60) && minute == 0) return this.activeStyle;
-
-    return this.inactiveStyle;
-  }
-
-  private between(x, min, max): boolean {
-    return x >= min && x <= max;
+  private isMinute(minute: boolean | number | number[]): boolean {
+    const now5: number = this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
+    return minute === undefined ? true : (minute instanceof Array ? minute.indexOf(now5) !== -1 : minute === now5);
   }
 
   /**
    * Rendering
    */
+  private renderWords(words: object): TemplateResult[] {
+    const rendered: TemplateResult[] = [];
+
+    for(const w in words) {
+      const conditions = words[w];
+
+      let match = false;
+      for(let c = 0; c < conditions.length; c++)
+        match = match || conditions[c] === true || (this.isHour(conditions[c].h, conditions[c].minuteshift) && this.isMinute(conditions[c].m));
+
+       rendered.push(html`<div class="word" style="${match ? this.activeStyle : this.inactiveStyle}">${w}</div>`);
+    }
+    return rendered;
+  }
+
   protected render(): TemplateResult {
     return html`
       <ha-card class="gcclock-words">
-        <div class="line">
-          <span class="word" style="${this.activeStyle}">it's</span
-          ><span class="word" style="${this.isMinute(15)}">quarter</span
-          ><span class="word" style="${this.isMinute(30)}">half</span>
-        </div>
-        <div class="line">
-          <span class="word" style="${this.isMinute(10)}">ten</span
-          ><span class="word" style="${this.isMinute(20)}">twenty</span
-          ><span class="word" style="${this.isMinute(5)}">five</span>
-        </div>
-        <div class="line">
-          <span class="word" style="${this.isDirection('to')}">to</span
-          ><span class="word" style="${this.isDirection('past')}">past</span>
-          <span class="word" style="${this.isHour(1)}">one</span>
-          <span class="word" style="${this.isHour(2)}">two</span>
-        </div>
-        <div class="line">
-          <span class="word" style="${this.isHour(3)}">three</span>
-          <span class="word" style="${this.isHour(4)}">four</span
-          ><span class="word" style="${this.isHour(5)}">five</span>
-        </div>
-        <div class="line">
-          <span class="word" style="${this.isHour(6)}">six</span
-          ><span class="word" style="${this.isHour(7)}">seven</span
-          ><span class="word" style="${this.isHour(8)}">eight</span>
-        </div>
-        <div class="line">
-          <span class="word" style="${this.isHour(9)}">nine</span>
-          <span class="word" style="${this.isHour(10)}">ten</span
-          ><span class="word" style="${this.isHour(11)}">eleven</span>
-        </div>
-        <div class="line">
-          <span class="word" style="${this.isHour(12)}">twelve</span>
-          <span class="word" style="${this.isMinute(0)}">o'clock</span>
-        </div>
+        ${(LINE_DEFS[document.documentElement.lang || 'en'] || LINE_DEFS.en).map((line) => html`<div class="line">${
+          this.renderWords(line)
+        }</div>`)} 
       </ha-card>
     `;
   }
