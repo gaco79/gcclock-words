@@ -2,15 +2,7 @@
 import './editor';
 
 import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
-import {
-  CSSResult,
-  customElement,
-  html,
-  LitElement,
-  property,
-  state,
-  TemplateResult,
-} from 'lit-element';
+import { CSSResult, customElement, html, LitElement, property, state, TemplateResult } from 'lit-element';
 
 import { CARD_VERSION, DEFAULT_CONFIG } from './const';
 import style from './style';
