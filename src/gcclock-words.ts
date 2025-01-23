@@ -88,7 +88,9 @@ export class GcClockWords extends LitElement {
 
   private updateData(): void {
     const dateTime = new Date();
-    this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
+    //this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
+    this.currentTime = [0, 20];
+    console.log("CurrentTime is:", this.currentTime);
 
     // Only request update if minutes changed
     if (this.currentTime[1] != this.lastUpdateMinutes) {
@@ -125,12 +127,12 @@ export class GcClockWords extends LitElement {
 
   private isHour(hour: boolean | number | number[], shift: number | undefined): boolean {
     const now: number = (this.currentTime[0] + (shift && this.currentTime[1] >= shift ? 1 : 0)) % 12;
-    return hour === undefined ? true : (hour instanceof Array ? hour.indexOf(now) !== -1 : hour === now);
+    return hour === undefined ? true : hour instanceof Array ? hour.indexOf(now) !== -1 : hour === now;
   }
 
   private isMinute(minute: boolean | number | number[]): boolean {
     const now5: number = this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
-    return minute === undefined ? true : (minute instanceof Array ? minute.indexOf(now5) !== -1 : minute === now5);
+    return minute === undefined ? true : minute instanceof Array ? minute.indexOf(now5) !== -1 : minute === now5;
   }
 
   /**
@@ -139,14 +141,17 @@ export class GcClockWords extends LitElement {
   private renderWords(words: object): TemplateResult[] {
     const rendered: TemplateResult[] = [];
 
-    for(const w in words) {
+    for (const w in words) {
       const conditions = words[w];
 
       let match = false;
-      for(let c = 0; c < conditions.length; c++)
-        match = match || conditions[c] === true || (this.isHour(conditions[c].h, conditions[c].minuteshift) && this.isMinute(conditions[c].m));
+      for (let c = 0; c < conditions.length; c++)
+        match =
+          match ||
+          conditions[c] === true ||
+          (this.isHour(conditions[c].h, conditions[c].minuteshift) && this.isMinute(conditions[c].m));
 
-       rendered.push(html`<div class="word" style="${match ? this.activeStyle : this.inactiveStyle}">${w}</div>`);
+      rendered.push(html`<div class="word" style="${match ? this.activeStyle : this.inactiveStyle}">${w}</div>`);
     }
     return rendered;
   }
@@ -154,9 +159,9 @@ export class GcClockWords extends LitElement {
   protected render(): TemplateResult {
     return html`
       <ha-card class="gcclock-words">
-        ${(LINE_DEFS[document.documentElement.lang || 'en'] || LINE_DEFS.en).map((line) => html`<div class="line">${
-          this.renderWords(line)
-        }</div>`)} 
+        ${(LINE_DEFS[document.documentElement.lang || 'en'] || LINE_DEFS.en).map(
+          (line) => html`<div class="line">${this.renderWords(line)}</div>`,
+        )}
       </ha-card>
     `;
   }

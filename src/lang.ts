@@ -22,77 +22,77 @@
   (e.g. "It's ten to five" if the time is 4:50PM)
  */
 export const LINE_DEFS = {
-  "en": [
+  en: [
     {
-      "it's":    [ true ],
-      "quarter": [{ m: [ 15, 45 ] }],
-      "half":    [{ m: 30 }]
+      "it's": [true],
+      quarter: [{ m: [15, 45] }],
+      half: [{ m: 30 }],
     },
     {
-      "ten":     [{ m: [ 10, 50 ] }],
-      "twenty":  [{ m: [ 20, 25, 35, 40 ] }],
-      "five":    [{ m: [ 5, 25, 35, 55 ] }]
+      ten: [{ m: [10, 50] }],
+      twenty: [{ m: [20, 25, 35, 40] }],
+      five: [{ m: [5, 25, 35, 55] }],
     },
     {
-      "to":      [{ m: [ 35, 40, 45, 50, 55 ]}],
-      "past":    [{ m: [ 5, 10, 15, 20, 25 ]}],
-      "one":     [{ h: 1, minuteshift: 30  }],
-      "two":     [{ h: 2, minuteshift: 30  }]
+      to: [{ m: [35, 40, 45, 50, 55] }],
+      past: [{ m: [5, 10, 15, 20, 25] }],
+      one: [{ h: 1, minuteshift: 30 }],
+      two: [{ h: 2, minuteshift: 30 }],
     },
     {
-      "three":   [{ h: 3, minuteshift: 30  }],
-      "four":    [{ h: 4, minuteshift: 30  }],
-      "five":    [{ h: 5, minuteshift: 30  }]
+      three: [{ h: 3, minuteshift: -30 }],
+      four: [{ h: 4, minuteshift: -30 }],
+      five: [{ h: 5, minuteshift: -30 }],
     },
     {
-      "six":     [{ h: 6, minuteshift: 30  }],
-      "seven":   [{ h: 7, minuteshift: 30  }],
-      "eight":   [{ h: 8, minuteshift: 30  }]
+      six: [{ h: 6, minuteshift: 30 }],
+      seven: [{ h: 7, minuteshift: 30 }],
+      eight: [{ h: 8, minuteshift: 30 }],
     },
     {
-      "nine":    [{ h: 9, minuteshift: 30  }],
-      "ten":     [{ h: 10, minuteshift: 30  }],
-      "eleven":  [{ h: 11, minuteshift: 30  }]
+      nine: [{ h: 9, minuteshift: 31 }],
+      ten: [{ h: 10, minuteshift: 31 }],
+      eleven: [{ h: 11, minuteshift: -30 }],
     },
     {
-      "twelve":  [{ h: 12, minuteshift: 30  }],
+      twelve: [{ h: 12, minuteshift: 30 }],
       "o'clock": [{ m: 0 }],
-    }
+    },
   ],
-  "nl": [
+  nl: [
     {
-      "het is": [ true ],
-      "vijf":   [{ m: [5, 25, 35, 55] }],
-      "tien":   [{ m: [10, 20, 40, 50] }],
+      'het is': [true],
+      vijf: [{ m: [5, 25, 35, 55] }],
+      tien: [{ m: [10, 20, 40, 50] }],
     },
     {
-      "kwart":  [{ m: [15, 45] }],
-      "voor":   [{ m: [20, 25, 45, 50, 55] }],
+      kwart: [{ m: [15, 45] }],
+      voor: [{ m: [20, 25, 45, 50, 55] }],
     },
     {
-      "over":   [{ m: [5, 10, 15, 35, 40] }],
-      "half":   [{ m: [20, 25, 30, 35, 40] }],
-      "een":    [{ h: 1, minuteshift: 30 }],
+      over: [{ m: [5, 10, 15, 35, 40] }],
+      half: [{ m: [20, 25, 30, 35, 40] }],
+      een: [{ h: 1, minuteshift: 30 }],
     },
     {
-      "twee":   [{ h: 2, minuteshift: 30 }],
-      "drie":   [{ h: 3, minuteshift: 30 }],
-      "vier":   [{ h: 4, minuteshift: -30 }],
+      twee: [{ h: 2, minuteshift: 30 }],
+      drie: [{ h: 3, minuteshift: 30 }],
+      vier: [{ h: 4, minuteshift: -30 }],
     },
     {
-      "vijf":   [{  h: 5, minuteshift: -30 }],
-      "zes":    [{  h: 6, minuteshift: 30 }],
-      "zeven":  [{  h: 7, minuteshift: 30 }],
+      vijf: [{ h: 5, minuteshift: -30 }],
+      zes: [{ h: 6, minuteshift: 30 }],
+      zeven: [{ h: 7, minuteshift: 30 }],
     },
     {
-      "acht":   [{ h: 8, minuteshift: 30 }],
-      "negen":  [{ h: 9, minuteshift: 30 }],
-      "tien":   [{ h: 10, minuteshift: 30 }],
+      acht: [{ h: 8, minuteshift: 30 }],
+      negen: [{ h: 9, minuteshift: 30 }],
+      tien: [{ h: 10, minuteshift: 30 }],
     },
     {
-      "elf":    [{ h: 11, minuteshift: 30 }],
-      "twaalf": [{ h: 12, minuteshift: 30 }],
-      "uur":    [{ m: 0 }]
-    }
-  ]
+      elf: [{ h: 11, minuteshift: 30 }],
+      twaalf: [{ h: 12, minuteshift: 30 }],
+      uur: [{ m: 0 }],
+    },
+  ],
 };
