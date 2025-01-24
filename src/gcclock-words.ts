@@ -144,7 +144,7 @@ export class GcClockWords extends LitElement {
 
       let match = false;
       for(let c = 0; c < conditions.length; c++)
-        match = match || conditions[c] === true || (this.isHour(conditions[c].h, conditions[c].minuteshift) && this.isMinute(conditions[c].m));
+        match = match || conditions[c] === true || (this.isHour(conditions[c].h, conditions[c].next_h_from_minute) && this.isMinute(conditions[c].m));
 
        rendered.push(html`<div class="word" style="${match ? this.activeStyle : this.inactiveStyle}">${w}</div>`);
     }
@@ -173,3 +173,4 @@ export class GcClockWords extends LitElement {
     return style;
   }
 }
+
