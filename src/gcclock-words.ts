@@ -24,7 +24,7 @@ function loadCSS(url): void {
   link.href = url;
   document.head.appendChild(link);
 }
-loadCSS('https://fonts.googleapis.com/css?family=Titillium+Web:700');
+loadCSS('https://fonts.googleapis.com/css2?family=Raleway:wght@900');
 
 /* eslint no-console: 0 */
 console.info(

@@ -19,7 +19,10 @@ const style = css`
     border-width: var(--ha-card-border-width, 1px);
     border-style: solid;
     container-type: inline-size;
-    font-family: 'Titillium Web', sans-serif;
+    font-family: 'Raleway', serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,31 +51,20 @@ const style = css`
   }
 
   /* Language specific adjustments */
-  :host([data-lang='ru']) .gcclock-words .line .word {
-    --base-font-size: 8cqw;
+  :host([data-lang='nl']) .gcclock-words .line .word {
+    --base-font-size: 12.5cqw;
   }
 
   :host([data-lang='ru']) .gcclock-words .line .word {
-    --base-font-size: 7cqw;
+    --base-font-size: 7.5cqw;
   }
 
   :host([data-lang='de']) .gcclock-words .line .word {
-    --base-font-size: 10.5cqw;
+    --base-font-size: 10.7cqw;
   }
 
   /* Container queries for responsive sizing */
   @container (max-width: 300px) {
-    .gcclock-words .line .word {
-      --base-font-size: 9cqw;
-    }
-
-    :host([data-lang='ru']) .gcclock-words .line .word {
-      --base-font-size: 7cqw;
-    }
-
-    :host([data-lang='de']) .gcclock-words .line .word {
-      --base-font-size: 8cqw;
-    }
   }
 `;
 
