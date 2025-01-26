@@ -90,6 +90,9 @@ export class GcClockWords extends LitElement {
     const dateTime = new Date();
     this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
 
+    //for testing
+    //this.currentTime = [0, 30];
+
     // Only request update if minutes changed
     if (this.currentTime[1] != this.lastUpdateMinutes) {
       this.lastUpdateMinutes = this.currentTime[1];
@@ -143,10 +146,11 @@ export class GcClockWords extends LitElement {
   /**
    * Rendering
    */
-  private renderWords(words: Record<string, { h?: number | boolean; m?: number[]; next_h_from_minute?: number }>): TemplateResult[] {
+  private renderWords(
+    words: Record<string, { h?: number | boolean; m?: number[]; next_h_from_minute?: number }>,
+  ): TemplateResult[] {
     return Object.entries(words).map(([word, condition]) => {
-      const isActive = 
-        (this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m));
+      const isActive = this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m);
 
       return html` <div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">${word}</div> `;
     });
