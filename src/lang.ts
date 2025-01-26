@@ -1,25 +1,20 @@
 /*
   The clock definition for a specific language is an array of objects, one for each line of the clock.
-  Each Objects has as keys the words to show on that line, and as values an array with one or more
+  Each object has as keys the words to show on that line, and as values an array with one or more
   conditions to be true for the word to light up.
 
-  Each conditions can be one of:
-  - the boolean TRUE - always show the word
-  - an object with one or more of the following keys:
-    - h
-    - next_h_from_minute
-    - m
+  Each condition is an object with one or more of the following keys:
+    - h: hour condition
+    - next_h_from_minute: minute threshold for next hour
+    - m: minute condition
 
-  The `h` condition checks against the current hour, and can either be a single value, or an array of hours
-  (hours are between 0 and 11)
+  The `h` condition checks against the current hour. If set to `true`, it means the word is always shown.
 
-  The `m` condition checks against the current minute rounded to the nearest multiple of five. As for the hours,
-  the value can either be a single value to check, or an array of values.
+  The `m` condition is an array of values that is checked against the current minute rounded to the nearest multiple of five.
 
-  The `next_h_from_minute` value is used in conjuction with `h` conditions, and if used will not check against the
-  hour-value given in the `h` condition, but the next hour if the current minute is >= than the `next_h_from_minute`
-  value. This is used in languages where for example values in the second half hour refer to the next hour
-  (e.g. "It's ten to five" if the time is 4:50PM)
+  The `next_h_from_minute` value is used in conjunction with `h` conditions. If present, the hour check will 
+  use the next hour when the current minute is >= this value. For example, "ten to five" at 4:50PM uses 
+  next_h_from_minute: 31 to reference the next hour (5) after 31 minutes past the current hour.
  */
 export const LINE_DEFS = {
   en: [
