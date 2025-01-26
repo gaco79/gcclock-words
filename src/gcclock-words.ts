@@ -3,7 +3,15 @@ import './editor';
 import { LINE_DEFS } from './lang';
 
 import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
-import { CSSResult, customElement, html, LitElement, property, state, TemplateResult } from 'lit-element';
+import {
+  CSSResult,
+  customElement,
+  html,
+  LitElement,
+  property,
+  state,
+  TemplateResult,
+} from 'lit-element';
 
 import { CARD_VERSION, DEFAULT_CONFIG } from './const';
 import style from './style';
@@ -19,7 +27,10 @@ function loadCSS(url): void {
 loadCSS('https://fonts.googleapis.com/css?family=Titillium+Web:700');
 
 /* eslint no-console: 0 */
-console.info(`%c gcclock-words ${CARD_VERSION}`, 'color: white; background-color:rgb(34, 110, 197); font-weight: 700;');
+console.info(
+  `%c gcclock-words ${CARD_VERSION}`,
+  'color: white; background-color:rgb(34, 110, 197); font-weight: 700;'
+);
 
 // This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
@@ -93,7 +104,7 @@ export class GcClockWords extends LitElement {
     if (oldLang) {
       this.removeAttribute(`data-lang`);
     }
-    
+
     // Set new language attribute
     const newLang = this._language.split('-')[0].toLowerCase();
     this.dataset.lang = newLang;
@@ -160,12 +171,15 @@ export class GcClockWords extends LitElement {
    * Rendering
    */
   private renderWords(
-    words: Record<string, { h?: number | boolean; m?: number[]; next_h_from_minute?: number }>,
+    words: Record<string, { h?: number | boolean; m?: number[]; next_h_from_minute?: number }>
   ): TemplateResult[] {
     return Object.entries(words).map(([word, condition]) => {
-      const isActive = this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m);
+      const isActive =
+        this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m);
 
-      return html` <div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">${word}</div> `;
+      return html`
+        <div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">${word}</div>
+      `;
     });
   }
 
@@ -175,7 +189,9 @@ export class GcClockWords extends LitElement {
 
     return html`
       <ha-card class="gcclock-words">
-        ${lineDefs.map((line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`)}
+        ${lineDefs.map(
+          (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
+        )}
       </ha-card>
     `;
   }

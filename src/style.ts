@@ -2,7 +2,7 @@ import { css } from 'lit-element';
 
 const style = css`
   :host {
-    --word-spacing: .5cqw;
+    --word-spacing: 0.5cqw;
     --line-height: 1.2em;
     --base-font-size: 11.5cqw;
   }
@@ -41,21 +41,22 @@ const style = css`
     color: var(--primary-text-color);
     text-transform: uppercase;
     display: block;
-    transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+    transition:
+      opacity 0.2s ease-in-out,
+      color 0.2s ease-in-out;
     margin: 0 var(--word-spacing);
   }
 
   /* Language specific adjustments */
-  :host([data-lang="ru"]) .gcclock-words .line .word {
-    --word-spacing: 0.3em;
+  :host([data-lang='ru']) .gcclock-words .line .word {
     --base-font-size: 8cqw;
   }
 
-  :host([data-lang="ru"]) .gcclock-words .line .word {
+  :host([data-lang='ru']) .gcclock-words .line .word {
     --base-font-size: 7cqw;
   }
 
-  :host([data-lang="de"]) .gcclock-words .line .word {
+  :host([data-lang='de']) .gcclock-words .line .word {
     --base-font-size: 10.5cqw;
   }
 
@@ -64,12 +65,12 @@ const style = css`
     .gcclock-words .line .word {
       --base-font-size: 9cqw;
     }
-    
-    :host([data-lang="ru"]) .gcclock-words .line .word {
+
+    :host([data-lang='ru']) .gcclock-words .line .word {
       --base-font-size: 7cqw;
     }
-    
-    :host([data-lang="de"]) .gcclock-words .line .word {
+
+    :host([data-lang='de']) .gcclock-words .line .word {
       --base-font-size: 8cqw;
     }
   }
