@@ -26,7 +26,7 @@ export const LINE_DEFS = {
     {
       "it's": { h: true },
       quarter: { m: [15, 45] },
-      half: { m: 30 },
+      half: { m: [30] },
     },
     {
       ten: { m: [10, 50] },
@@ -56,7 +56,7 @@ export const LINE_DEFS = {
     },
     {
       twelve: { h: 0, next_h_from_minute: 31 },
-      "o'clock": { m: 0 },
+      "o'clock": { m: [0] },
     },
   ],
   nl: [
@@ -92,7 +92,7 @@ export const LINE_DEFS = {
     {
       elf: { h: 11, next_h_from_minute: 16 },
       twaalf: { h: 0, next_h_from_minute: 16 },
-      uur: { m: 0 },
+      uur: { m: [0] },
     },
   ],
 };

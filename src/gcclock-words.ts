@@ -123,25 +123,30 @@ export class GcClockWords extends LitElement {
     return 7;
   }
 
-  private isHour(hour: boolean | number | number[], shift: number | undefined): boolean {
-    const now: number = (this.currentTime[0] + (shift && this.currentTime[1] >= shift ? 1 : 0)) % 12;
-    return hour === undefined ? true : hour instanceof Array ? hour.indexOf(now) !== -1 : hour === now;
+  private isHour(hour: boolean | number | undefined, shift?: number): boolean {
+    if (hour === true || hour === undefined) return true;
+
+    const currentHour = this.currentTime[0];
+    const shouldShift = shift !== undefined && this.currentTime[1] >= shift;
+    const adjustedHour = (currentHour + (shouldShift ? 1 : 0)) % 12;
+
+    return hour === adjustedHour;
   }
 
-  private isMinute(minute: boolean | number | number[]): boolean {
+  private isMinute(minute: number[] | undefined): boolean {
+    if (minute === undefined) return true;
+
     const now5: number = this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
-    return minute === undefined ? true : minute instanceof Array ? minute.indexOf(now5) !== -1 : minute === now5;
+    return minute.includes(now5);
   }
 
   /**
    * Rendering
    */
-  private renderWords(words: Record<string, any[]>): TemplateResult[] {
-    return Object.entries(words).map(([word, conditions]) => {
-      const isActive = conditions.some(
-        (condition) =>
-          condition === true || (this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m)),
-      );
+  private renderWords(words: Record<string, { h?: number | boolean; m?: number[]; next_h_from_minute?: number }>): TemplateResult[] {
+    return Object.entries(words).map(([word, condition]) => {
+      const isActive = 
+        (this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m));
 
       return html` <div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">${word}</div> `;
     });
