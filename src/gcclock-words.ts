@@ -157,11 +157,17 @@ export class GcClockWords extends LitElement {
   }
 
   protected render(): TemplateResult {
+    const lang = document.documentElement.lang || 'en';
+    const lineDefs = LINE_DEFS[lang] || LINE_DEFS.en;
+
+    if (!lineDefs) {
+      console.warn(`No line definitions found for language: ${lang}`);
+      return html`<ha-card class="gcclock-words"><div class="error">Invalid language configuration</div></ha-card>`;
+    }
+
     return html`
       <ha-card class="gcclock-words">
-        ${(LINE_DEFS[document.documentElement.lang || 'en'] || LINE_DEFS.en).map(
-          (line) => html`<div class="line">${this.renderWords(line)}</div>`,
-        )}
+        ${lineDefs.map((line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`)}
       </ha-card>
     `;
   }
