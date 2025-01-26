@@ -84,6 +84,19 @@ export class GcClockWords extends LitElement {
     this.inactiveStyle = `opacity: ${this._mutedTextBrightness};`;
 
     this.updateData();
+    this.updateLanguageStyles();
+  }
+
+  private updateLanguageStyles(): void {
+    // Remove old language attribute
+    const oldLang = this.dataset.lang;
+    if (oldLang) {
+      this.removeAttribute(`data-lang`);
+    }
+    
+    // Set new language attribute
+    const newLang = this._language.split('-')[0].toLowerCase();
+    this.dataset.lang = newLang;
   }
 
   private updateData(): void {
@@ -176,7 +189,8 @@ export class GcClockWords extends LitElement {
   }
 
   get _language(): string {
-    return this.config.language ?? document.documentElement.lang ?? 'en-GB';
+    const lang = this.config.language ?? document.documentElement.lang ?? 'en-GB';
+    return lang;
   }
 
   static get styles(): CSSResult {
