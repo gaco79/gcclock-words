@@ -99,10 +99,10 @@ export const LINE_DEFS = {
     {
       fünf: { m: [5, 25, 35, 55] },
       zehn: { m: [10, 50] },
-      zwanzig: { m: [20, 40] },
+      zwanzig: { m: [20, 25, 35, 40] },
     },
     {
-      vor: { m: [45, 50, 55] },
+      vor: { m: [35, 40, 45, 50, 55] },
       nach: { m: [5, 10, 15, 20, 25] },
       ein: { h: 1, next_h_from_minute: 16 },
       zwei: { h: 2, next_h_from_minute: 16 },
