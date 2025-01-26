@@ -157,13 +157,8 @@ export class GcClockWords extends LitElement {
   }
 
   protected render(): TemplateResult {
-    const lang = document.documentElement.lang || 'en';
-    const lineDefs = LINE_DEFS[lang] || LINE_DEFS.en;
-
-    if (!lineDefs) {
-      console.warn(`No line definitions found for language: ${lang}`);
-      return html`<ha-card class="gcclock-words"><div class="error">Invalid language configuration</div></ha-card>`;
-    }
+    console.log(this._language);
+    const lineDefs = LINE_DEFS[this._language];
 
     return html`
       <ha-card class="gcclock-words">
@@ -178,6 +173,10 @@ export class GcClockWords extends LitElement {
 
   get _mutedTextBrightness(): number {
     return this.config.muted_text_brightness ?? DEFAULT_CONFIG.muted_text_brightness;
+  }
+
+  get _language(): string {
+    return this.config.language ?? document.documentElement.lang ?? 'en-GB';
   }
 
   static get styles(): CSSResult {

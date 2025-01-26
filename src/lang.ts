@@ -17,7 +17,7 @@
   next_h_from_minute: 31 to reference the next hour (5) after 31 minutes past the current hour.
  */
 export const LINE_DEFS = {
-  en: [
+  "en-GB": [
     {
       "it's": { h: true },
       quarter: { m: [15, 45] },
