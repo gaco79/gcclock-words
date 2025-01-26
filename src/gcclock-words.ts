@@ -150,8 +150,8 @@ export class GcClockWords extends LitElement {
     return 7;
   }
 
-  private isHour(hour: boolean | number | undefined, shift?: number): boolean {
-    if (hour === true || hour === undefined) return true;
+  private isHour(hour?: number, shift?: number): boolean {
+    if (hour === undefined) return true;
 
     const currentHour = this.currentTime[0];
     const shouldShift = shift !== undefined && this.currentTime[1] >= shift;
@@ -160,7 +160,7 @@ export class GcClockWords extends LitElement {
     return hour === adjustedHour;
   }
 
-  private isMinute(minute: number[] | undefined): boolean {
+  private isMinute(minute?: number[]): boolean {
     if (minute === undefined) return true;
 
     const now5: number = this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
@@ -171,7 +171,7 @@ export class GcClockWords extends LitElement {
    * Rendering
    */
   private renderWords(
-    words: Record<string, { h?: number | boolean; m?: number[]; next_h_from_minute?: number }>
+    words: Record<string, { h?: number ; m?: number[]; next_h_from_minute?: number }>
   ): TemplateResult[] {
     return Object.entries(words).map(([word, condition]) => {
       const isActive =
@@ -184,7 +184,6 @@ export class GcClockWords extends LitElement {
   }
 
   protected render(): TemplateResult {
-    console.log(this._language);
     const lineDefs = LINE_DEFS[this._language];
 
     return html`
