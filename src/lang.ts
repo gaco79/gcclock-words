@@ -19,7 +19,7 @@
 export const LINE_DEFS = {
   'en-GB': [
     {
-      "it's": { },
+      "it's": {},
       quarter: { m: [15, 45] },
       half: { m: [30] },
     },

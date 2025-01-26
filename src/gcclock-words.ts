@@ -171,7 +171,7 @@ export class GcClockWords extends LitElement {
    * Rendering
    */
   private renderWords(
-    words: Record<string, { h?: number ; m?: number[]; next_h_from_minute?: number }>
+    words: Record<string, { h?: number; m?: number[]; next_h_from_minute?: number }>
   ): TemplateResult[] {
     return Object.entries(words).map(([word, condition]) => {
       const isActive =
