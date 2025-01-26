@@ -125,38 +125,34 @@ export class GcClockWords extends LitElement {
 
   private isHour(hour: boolean | number | number[], shift: number | undefined): boolean {
     const now: number = (this.currentTime[0] + (shift && this.currentTime[1] >= shift ? 1 : 0)) % 12;
-    return hour === undefined ? true : (hour instanceof Array ? hour.indexOf(now) !== -1 : hour === now);
+    return hour === undefined ? true : hour instanceof Array ? hour.indexOf(now) !== -1 : hour === now;
   }
 
   private isMinute(minute: boolean | number | number[]): boolean {
     const now5: number = this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
-    return minute === undefined ? true : (minute instanceof Array ? minute.indexOf(now5) !== -1 : minute === now5);
+    return minute === undefined ? true : minute instanceof Array ? minute.indexOf(now5) !== -1 : minute === now5;
   }
 
   /**
    * Rendering
    */
-  private renderWords(words: object): TemplateResult[] {
-    const rendered: TemplateResult[] = [];
+  private renderWords(words: Record<string, any[]>): TemplateResult[] {
+    return Object.entries(words).map(([word, conditions]) => {
+      const isActive = conditions.some(
+        (condition) =>
+          condition === true || (this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m)),
+      );
 
-    for(const w in words) {
-      const conditions = words[w];
-
-      let match = false;
-      for(let c = 0; c < conditions.length; c++)
-        match = match || conditions[c] === true || (this.isHour(conditions[c].h, conditions[c].next_h_from_minute) && this.isMinute(conditions[c].m));
-
-       rendered.push(html`<div class="word" style="${match ? this.activeStyle : this.inactiveStyle}">${w}</div>`);
-    }
-    return rendered;
+      return html` <div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">${word}</div> `;
+    });
   }
 
   protected render(): TemplateResult {
     return html`
       <ha-card class="gcclock-words">
-        ${(LINE_DEFS[document.documentElement.lang || 'en'] || LINE_DEFS.en).map((line) => html`<div class="line">${
-          this.renderWords(line)
-        }</div>`)} 
+        ${(LINE_DEFS[document.documentElement.lang || 'en'] || LINE_DEFS.en).map(
+          (line) => html`<div class="line">${this.renderWords(line)}</div>`,
+        )}
       </ha-card>
     `;
   }
@@ -173,4 +169,3 @@ export class GcClockWords extends LitElement {
     return style;
   }
 }
-
