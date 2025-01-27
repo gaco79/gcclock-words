@@ -129,7 +129,7 @@ export const LINE_DEFS = {
   ],
   /**
    * RUSSIAN TRANSLATION - Work in progress, may be incorrect
-   * 
+   *
    * Russian grammatical rules:
    * 10:00 - десять часов
    * 10:05 - пять минут первого
@@ -147,43 +147,43 @@ export const LINE_DEFS = {
    */
   ru: [
     {
-      сейчас: {},  // now
-      четверть: { m: [15, 45] },  // quarter
+      сейчас: {}, // now
+      четверть: { m: [15, 45] }, // quarter
     },
     {
-      половина: { m: [30] },  // half
-      пять: { m: [5, 25, 35, 55] },  // five
+      половина: { m: [30] }, // half
+      пять: { m: [5, 25, 35, 55] }, // five
     },
     {
-      десять: { m: [10, 50] },  // ten
-      двадцать: { m: [20, 40] },  // twenty
-      до: { m: [45, 50, 55] },  // before/to
+      десять: { m: [10, 50] }, // ten
+      двадцать: { m: [20, 40] }, // twenty
+      до: { m: [45, 50, 55] }, // before/to
     },
     {
-      после: { m: [5, 10, 15, 20, 25] },  // after/past
-      один: { h: 1, next_h_from_minute: 30 },  // one
-      два: { h: 2, next_h_from_minute: 30 },  // two
+      после: { m: [5, 10, 15, 20, 25] }, // after/past
+      один: { h: 1, next_h_from_minute: 30 }, // one
+      два: { h: 2, next_h_from_minute: 30 }, // two
     },
     {
-      три: { h: 3, next_h_from_minute: 30 },  // three
-      четыре: { h: 4, next_h_from_minute: 30 },  // four
-      пять: { h: 5, next_h_from_minute: 30 },  // five
+      три: { h: 3, next_h_from_minute: 30 }, // three
+      четыре: { h: 4, next_h_from_minute: 30 }, // four
+      пять: { h: 5, next_h_from_minute: 30 }, // five
     },
     {
-      шесть: { h: 6, next_h_from_minute: 30 },  // six
-      семь: { h: 7, next_h_from_minute: 30 },  // seven
-      восемь: { h: 8, next_h_from_minute: 30 },  // eight
+      шесть: { h: 6, next_h_from_minute: 30 }, // six
+      семь: { h: 7, next_h_from_minute: 30 }, // seven
+      восемь: { h: 8, next_h_from_minute: 30 }, // eight
     },
     {
-      девять: { h: 9, next_h_from_minute: 30 },  // nine
-      десять: { h: 10, next_h_from_minute: 30 },  // ten
+      девять: { h: 9, next_h_from_minute: 30 }, // nine
+      десять: { h: 10, next_h_from_minute: 30 }, // ten
     },
     {
-      одиннадцать: { h: 11, next_h_from_minute: 30 },  // eleven
+      одиннадцать: { h: 11, next_h_from_minute: 30 }, // eleven
     },
     {
-      двенадцать: { h: 0, next_h_from_minute: 30 },  // twelve
-      часов: { m: [0] },  // hours/o'clock
+      двенадцать: { h: 0, next_h_from_minute: 30 }, // twelve
+      часов: { m: [0] }, // hours/o'clock
     },
   ],
 };

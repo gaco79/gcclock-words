@@ -19,7 +19,7 @@ const style = css`
     border-width: var(--ha-card-border-width, 1px);
     border-style: solid;
     container-type: inline-size;
-    font-family: "Russo One", serif;
+    font-family: 'Russo One', serif;
     font-weight: 400;
     font-style: normal;
     display: flex;
