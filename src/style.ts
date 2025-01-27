@@ -26,7 +26,6 @@ const style = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: var(--font-size);
   }
 
   .gcclock-words .line {
@@ -38,7 +37,6 @@ const style = css`
   }
 
   .gcclock-words .line .word {
-    font-family: 'Titillium Web', sans-serif;
     font-size: var(--base-font-size);
     line-height: 120%;
     color: var(--primary-text-color);
