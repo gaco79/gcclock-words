@@ -2,6 +2,8 @@
 import './editor';
 import { LINE_DEFS } from './lang';
 
+import { version } from '../package.json';
+
 import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
 import {
   CSSResult,
@@ -13,7 +15,7 @@ import {
   TemplateResult,
 } from 'lit-element';
 
-import { CARD_VERSION, DEFAULT_CONFIG } from './const';
+import { DEFAULT_CONFIG } from './const';
 import style from './style';
 import { GcclockWordsCardConfig } from './types/config';
 
@@ -29,7 +31,7 @@ loadCSS('https://fonts.googleapis.com/css2?family=Russo+One');
 
 /* eslint no-console: 0 */
 console.info(
-  `%c gcclock-words ${CARD_VERSION}`,
+  `%c gcclock-words ${version}`,
   'color: white; background-color:rgb(34, 110, 197); font-weight: 700;'
 );
 
