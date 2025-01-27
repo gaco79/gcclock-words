@@ -25,6 +25,7 @@ function loadCSS(url): void {
   document.head.appendChild(link);
 }
 loadCSS('https://fonts.googleapis.com/css2?family=Raleway:wght@900');
+loadCSS('https://fonts.googleapis.com/css2?family=Russo+One');
 
 /* eslint no-console: 0 */
 console.info(
@@ -112,10 +113,10 @@ export class GcClockWords extends LitElement {
 
   private updateData(): void {
     const dateTime = new Date();
-    this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
+    //this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
 
     //for testing
-    //this.currentTime = [0, 30];
+    this.currentTime = [0, 30];
 
     // Only request update if minutes changed
     if (this.currentTime[1] != this.lastUpdateMinutes) {

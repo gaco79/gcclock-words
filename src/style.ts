@@ -4,7 +4,7 @@ const style = css`
   :host {
     --word-spacing: 0.5cqw;
     --line-height: 1.2em;
-    --base-font-size: 11.5cqw;
+    --base-font-size: 10cqw;
   }
 
   .gcclock-words {
@@ -19,9 +19,8 @@ const style = css`
     border-width: var(--ha-card-border-width, 1px);
     border-style: solid;
     container-type: inline-size;
-    font-family: 'Raleway', serif;
-    font-optical-sizing: auto;
-    font-weight: 900;
+    font-family: "Russo One", serif;
+    font-weight: 400;
     font-style: normal;
     display: flex;
     flex-direction: column;
@@ -50,7 +49,7 @@ const style = css`
 
   /* Language specific adjustments */
   :host([data-lang='nl']) .gcclock-words .line .word {
-    --base-font-size: 12.5cqw;
+    --base-font-size: 11.2cqw;
   }
 
   :host([data-lang='ru']) .gcclock-words .line .word {
@@ -58,7 +57,7 @@ const style = css`
   }
 
   :host([data-lang='de']) .gcclock-words .line .word {
-    --base-font-size: 10.7cqw;
+    --base-font-size: 9cqw;
   }
 
   /* Container queries for responsive sizing */
