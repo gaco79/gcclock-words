@@ -1,9 +1,4 @@
-import { clockDefinition as enGB } from './lang/en-GB';
-import { clockDefinition as nl } from './lang/nl';
-import { clockDefinition as de } from './lang/de';
-import { clockDefinition as ru } from './lang/ru';
-import { ClockDefinition } from './types/ClockDefinition';
-
+import { ClockDefinition } from '../types/ClockDefinition';
 /*
   The clock definition for a specific language is an array of objects, one for each line of the clock.
   Each object has as keys the words to show on that line, and as values an array with one or more
@@ -22,9 +17,40 @@ import { ClockDefinition } from './types/ClockDefinition';
   use the next hour when the current minute is >= this value. For example, "ten to five" at 4:50PM uses 
   next_h_from_minute: 31 to reference the next hour (5) after 31 minutes past the current hour.
  */
-export const LINE_DEFS: Record<string, ClockDefinition> = {
-  'en-GB': enGB,
-  nl,
-  de,
-  ru,
-};
+export const clockDefinition: ClockDefinition = [
+  {
+    'es ist': {},
+    viertel: { m: [15, 45] },
+    halb: { m: [30] },
+  },
+  {
+    fünf: { m: [5, 25, 35, 55] },
+    zehn: { m: [10, 50] },
+    zwanzig: { m: [20, 25, 35, 40] },
+  },
+  {
+    vor: { m: [35, 40, 45, 50, 55] },
+    nach: { m: [5, 10, 15, 20, 25] },
+    ein: { h: 1, next_h_from_minute: 16 },
+    zwei: { h: 2, next_h_from_minute: 16 },
+  },
+  {
+    drei: { h: 3, next_h_from_minute: 16 },
+    vier: { h: 4, next_h_from_minute: 16 },
+    fünf: { h: 5, next_h_from_minute: 16 },
+  },
+  {
+    sechs: { h: 6, next_h_from_minute: 16 },
+    sieben: { h: 7, next_h_from_minute: 16 },
+    acht: { h: 8, next_h_from_minute: 16 },
+  },
+  {
+    neun: { h: 9, next_h_from_minute: 16 },
+    zehn: { h: 10, next_h_from_minute: 16 },
+    elf: { h: 11, next_h_from_minute: 16 },
+  },
+  {
+    zwölf: { h: 0, next_h_from_minute: 16 },
+    uhr: { m: [0] },
+  },
+];
