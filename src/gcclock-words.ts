@@ -186,7 +186,22 @@ export class GcClockWords extends LitElement {
   }
 
   protected render(): TemplateResult {
-    const lineDefs = LINE_DEFS[this._language];
+    if (!LINE_DEFS[this._language] && this.config.language) {
+      return html`
+        <ha-card class="gcclock-words">
+          <div>Language '${this._language}' not supported</div>
+          <div>Supported languages: ${Object.keys(LINE_DEFS).join(', ')}</div>
+          <div>Please set the correct language in the card configuration</div>
+          <div>
+            Consider
+            <a href="https://github.com/gaco79/gcclock-words/issues">submitting an issue</a> to
+            support your language
+          </div>
+        </ha-card>
+      `;
+    }
+
+    const lineDefs = LINE_DEFS[this._language] || LINE_DEFS['en-GB'];
 
     return html`
       <ha-card class="gcclock-words">
