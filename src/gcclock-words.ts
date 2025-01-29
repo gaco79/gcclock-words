@@ -26,7 +26,6 @@ function loadCSS(url): void {
   link.href = url;
   document.head.appendChild(link);
 }
-loadCSS('https://fonts.googleapis.com/css2?family=Raleway:wght@900');
 loadCSS('https://fonts.googleapis.com/css2?family=Russo+One');
 
 /* eslint no-console: 0 */
