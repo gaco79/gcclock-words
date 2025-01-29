@@ -26,5 +26,5 @@ export const LINE_DEFS: Record<string, ClockDefinition> = {
   'en-GB': enGB,
   nl,
   de,
-  ru,
+  //ru,
 };
