@@ -1,7 +1,7 @@
 import { clockDefinition as enGB } from './lang/en-GB';
 import { clockDefinition as nl } from './lang/nl';
 import { clockDefinition as de } from './lang/de';
-import { clockDefinition as ru } from './lang/ru';
+//import { clockDefinition as ru } from './lang/ru';
 import { ClockDefinition } from './types/ClockDefinition';
 
 /*
