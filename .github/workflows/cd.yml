@@ -52,3 +52,5 @@ jobs:
           tag: ${{ github.ref }}
           release_name: 'Release v${{ env.RELEASE_VERSION }}'
           body: ${{ steps.release.outputs.RELEASE_BODY }}
+          draft: true
+          prerelease: true

@@ -1,6 +1,6 @@
 {
   "name": "gcclock-words",
-  "version": "0.0.2",
+  "version": "0.0.5-alpha.2",
   "description": "Clock card for Home Assistant Lovelace UI. Displays the time in words.",
   "keywords": [
     "home-assistant",
@@ -34,6 +34,7 @@
     "@typescript-eslint/parser": "^8.21.0",
     "eslint": "^8.57.1",
     "prettier": "3.4.2",
+    "release-it": "^18.1.2",
     "rollup": "^4.3.0",
     "tslib": "^2.8.1",
     "typescript": "^5.7.3",
@@ -44,6 +45,7 @@
     "check": "eslint 'src/**/*.ts' && prettier --config .prettierrc 'src/**/*.ts' --check",
     "rollup": "rollup -c",
     "format": "eslint 'src/**/*.ts' --fix && prettier --config .prettierrc 'src/**/*.ts' --write",
-    "start": "rollup -c rollup.config.dev.js --watch -m"
+    "start": "rollup -c rollup.config.dev.js --watch -m",
+    "release": "release-it"
   }
 }

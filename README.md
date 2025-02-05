@@ -1,14 +1,16 @@
 # Word Clock
 
-![GitHub Release](https://img.shields.io/github/v/release/gaco79/gcclock-words) 
+![GitHub Release](https://img.shields.io/github/v/release/gaco79/gcclock-words)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/gaco79/gcclock-words)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gaco79/gcclock-words/cd.yml)
-[<img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow">](https://www.buymeacoffee.com/gaco79) 
+[<img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow">](https://www.buymeacoffee.com/gaco79)
 
 <p align="center">A clock for Home Assistant to show the time in words.</p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock.png" />
+  <img src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-en.png" />
+  <img src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-de.png" />
+  <img src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-nl.png" />
 </p>
 
 ## 💾 Install
@@ -20,7 +22,8 @@
 ### Manual install (Not recommended)
 
 1. Download and copy `gcclock-words.js` from the [latest release](https://github.com/gaco79/gcclock-words/releases/latest) into your `config/www` directory.
-2. Add the resource reference inside your `configuration.yaml` 
+2. Add the resource reference inside your `configuration.yaml`
+
 ```yaml
 lovelace:
   mode: yaml
@@ -31,7 +34,16 @@ lovelace:
 
 ## 📐 Configuration
 
-In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to find "Custom: Time In Words". 
+In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to find "Custom: Time In Words". All options except language can be configured by the graphical editor. `language:` can be used as a key in the YAML editor and specifying `en-GB`, `nl`, or `de`. This is not currently configurable via the graphical editor.
+
+#### Sample Configuration
+
+```YAML
+type: custom:gcclock-words
+highlight_text_color: "#dd4b4b"
+show_highlight_glow: false
+muted_text_brightness: 0.07
+```
 
 ## Alternatives
 
@@ -40,11 +52,12 @@ I've also got an analogue clock Home Assistant card available [here](https://git
 ## Development
 
 To develop the card:
- * Clone this repository
- * Run `docker compose up -d` from the cloned directory
- * Run `npm start`
- * Browse to `http://localhost:8123/` and configure your home assistant development build
- * Add the card to a dashboard as described above
+
+- Clone this repository
+- Run `docker compose up -d` from the cloned directory
+- Run `npm start`
+- Browse to `http://localhost:8123/` and configure your home assistant development build
+- Add the card to a dashboard as described above
 
 ### Inspiration
 
