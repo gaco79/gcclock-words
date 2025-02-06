@@ -11,7 +11,10 @@ import { GcclockWordsCardConfig } from './types/config';
 
 @customElement('gcclock-words-editor')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export class GcclockWordsEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {
+export class GcclockWordsEditor
+  extends ScopedRegistryHost(LitElement)
+  implements LovelaceCardEditor
+{
   @property({ attribute: false }) public hass?: HomeAssistant;
 
   @state() private _config?: GcclockWordsCardConfig;
