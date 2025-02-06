@@ -2,7 +2,6 @@ import { css } from 'lit-element';
 
 const style = css`
   :host {
-    --word-spacing: 0.5cqw;
     --line-height: 1.2em;
     --base-font-size: 10cqw;
   }
@@ -19,8 +18,8 @@ const style = css`
     border-width: var(--ha-card-border-width, 1px);
     border-style: solid;
     container-type: inline-size;
-    font-family: 'Russo One', serif;
-    font-weight: 400;
+    font-family: 'Rubik', serif;
+    font-weight: 500;
     font-style: normal;
     display: flex;
     flex-direction: column;
@@ -44,20 +43,7 @@ const style = css`
     transition:
       opacity 0.2s ease-in-out,
       color 0.2s ease-in-out;
-    margin: 0 var(--word-spacing);
-  }
-
-  /* Language specific adjustments */
-  :host([data-lang='nl']) .gcclock-words .line .word {
-    --base-font-size: 11.2cqw;
-  }
-
-  :host([data-lang='ru']) .gcclock-words .line .word {
-    --base-font-size: 7.5cqw;
-  }
-
-  :host([data-lang='de']) .gcclock-words .line .word {
-    --base-font-size: 9cqw;
+    margin: 0;
   }
 
   /* Container queries for responsive sizing */
