@@ -8,7 +8,7 @@ export const clockDefinition: ClockDefinition = {
   `,
   lines: [
     {
-      "il est": {},
+      'il est': {},
       cinq: { m: [5, 25, 35, 55] },
       quart: { m: [15, 45] },
     },
@@ -42,7 +42,5 @@ export const clockDefinition: ClockDefinition = {
       douze: { h: [0], next_h_from_minute: 31 },
       heures: { m: [0] },
     },
-  ]
-}
-
-
+  ],
+};

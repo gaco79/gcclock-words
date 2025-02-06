@@ -113,7 +113,7 @@ export class GcClockWords extends LitElement {
 
     const lineDefs = LINE_DEFS[this._language] || LINE_DEFS['en-GB'];
 
-    if(lineDefs.styles && this.shadowRoot) {
+    if (lineDefs.styles && this.shadowRoot) {
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(lineDefs.styles);
       this.shadowRoot.adoptedStyleSheets.push(sheet);
@@ -187,23 +187,25 @@ export class GcClockWords extends LitElement {
       const isActive =
         this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m);
 
-      return html`<div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">${word}</div>`;
+      return html`<div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">
+        ${word}
+      </div>`;
     });
   }
 
   protected render(): TemplateResult {
     if (!LINE_DEFS[this._language] && this.config.language) {
       return html`
-         <ha-card class="gcclock-words">
-            <div>Language '${this._language}' not supported.</div>
-            <div>Supported languages: ${Object.keys(LINE_DEFS).join(', ')}</div>
-            <div>Please set the correct language in the card configuration.</div>
-            <div>
-               Consider
-               <a href="https://github.com/gaco79/gcclock-words/issues">submitting an issue</a> to
-               support your language.
-            </div>
-         </ha-card>
+        <ha-card class="gcclock-words">
+          <div>Language '${this._language}' not supported.</div>
+          <div>Supported languages: ${Object.keys(LINE_DEFS).join(', ')}</div>
+          <div>Please set the correct language in the card configuration.</div>
+          <div>
+            Consider
+            <a href="https://github.com/gaco79/gcclock-words/issues">submitting an issue</a> to
+            support your language.
+          </div>
+        </ha-card>
       `;
     }
 

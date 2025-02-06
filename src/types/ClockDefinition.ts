@@ -15,6 +15,6 @@ interface ClockLine {
 
 /** Complete clock definition for a language */
 export type ClockDefinition = {
-  styles?: string,
-  lines: ClockLine[]
-}
+  styles?: string;
+  lines: ClockLine[];
+};
