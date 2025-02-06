@@ -2,7 +2,9 @@ name: 'Hacs validation'
 
 on:
   push:
-  pull_request:
+    branches:
+      - 'main'
+      - 'dev'
   workflow_dispatch:
 
 jobs:
