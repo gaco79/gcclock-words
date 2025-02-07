@@ -55,7 +55,7 @@ export const clockDefinition: ClockDefinition = {
     },
     {
       ПЯТ: { m: [15, 50, 55] }, // fifteen1, fifty1
-      НА: { m: [15 ] }, // fifteen2
+      НА: { m: [15] }, // fifteen2
       ДЦАТЬ: { m: [15, 20, 25, 30, 35] }, // twenty, fifteen3, twenty2, thirty2
       Л: { m: [15] }, // fifteen4
     },
