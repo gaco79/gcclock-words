@@ -15,14 +15,14 @@ export const clockDefinition: ClockDefinition = {
   lines: [
     {
       СЕИЧАС: {}, // it's
-      Б: { h: [] }, // TBD
+      Г: { h: [] }, // filler
       ДВА: { h: [2] }, // two
-      О: { h: [] }, // TBD
+      А: { h: [] }, // filler
     },
     {
       ЧЕТЫРЕ: { h: [4] }, // four
       ДВЕ: { h: [0] }, // twelve1
-      ПЯ: { h: [] }, // TBD
+      РЕ: { h: [] }, // filler
     },
     {
       ОДИН: { h: [1, 11] }, // one, eleven1
@@ -38,34 +38,34 @@ export const clockDefinition: ClockDefinition = {
     {
       ДЕС: { h: [10] }, // ten2
       ЯТЬ: { h: [9, 10] }, // nine3, ten2
-      Ф: { h: [] }, // TBD
+      Т: { h: [] }, // filler
       ПЯТЬ: { h: [5] }, // five
     },
     {
       ШЕСТЬ: { h: [6] }, // six
-      О: { h: [] }, // TBD
+      К: { h: [] }, // filler
       ЧАСОВ: { h: [0, 5, 6, 7, 8, 9, 10, 11] }, // hour=5..12
     },
     {
       ЧАС: { h: [1, 2, 3, 4] }, // hour=1, hour=2..4p1
       А: { h: [2, 3, 4] }, // hour=2..4p2
-      Я: { h: [] }, // TBD
+      У: { h: [] }, // filler
       ДВА: { m: [20, 25] }, // twenty1
       ТРИ: { m: [30] }, // thirty1
     },
     {
-      ПЯТ: { m: [15, 50] }, // fifteen1, fifty2
-      НА: { m: [15] }, // fifteen2, fifty1
+      ПЯТ: { m: [15, 50, 55] }, // fifteen1, fifty1
+      НА: { m: [15 ] }, // fifteen2
       ДЦАТЬ: { m: [15, 20, 25, 30, 35] }, // twenty, fifteen3, twenty2, thirty2
       Л: { m: [15] }, // fifteen4
     },
     {
-      ЬДЕСЯТ: { m: [10, 50] }, // ten, fifty2
+      ЬДЕСЯТ: { m: [10, 50, 55] }, // ten, fifty2
       СОРОК: { m: [40, 45] }, // forty
     },
     {
       ПЯТЬ: { m: [5, 25, 35, 45, 55] }, // five
-      ВФ: { h: [] }, // TBD
+      ПР: { h: [] }, // filler
       МИНУТ: { m: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] }, // minutes
     },
   ],
