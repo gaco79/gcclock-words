@@ -5,15 +5,8 @@ import { LINE_DEFS } from './lang';
 import { version } from '../package.json';
 
 import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
-import {
-  CSSResult,
-  customElement,
-  html,
-  LitElement,
-  property,
-  state,
-  TemplateResult,
-} from 'lit-element';
+import { customElement, property, state } from 'lit/decorators.js';
+import { CSSResult, html, LitElement, TemplateResult } from 'lit';
 
 import { DEFAULT_CONFIG } from './const';
 import style from './style';

@@ -7,7 +7,7 @@ https://github.com/home-assistant/frontend/blob/9e81055070da9b3b75513524d61bc3f9
 
 import { fireEvent, HomeAssistant } from 'custom-card-helpers';
 import { css, html, LitElement, TemplateResult } from 'lit';
-import { customElement, property } from 'lit-element';
+import { customElement, property } from 'lit/decorators.js';
 
 export interface ColorRGBSelector {
   color_rgb: object | null;

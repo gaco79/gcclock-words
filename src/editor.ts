@@ -5,7 +5,7 @@ import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
 import { fireEvent, HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
 import { css, CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { customElement, property, state } from 'lit-element';
+import { customElement, property, state } from 'lit/decorators.js';
 
 import { GcclockWordsCardConfig } from './types/config';
 
