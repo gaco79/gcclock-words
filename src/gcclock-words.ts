@@ -26,7 +26,7 @@ function loadCSS(url): void {
   link.href = url;
   document.head.appendChild(link);
 }
-loadCSS('https://fonts.googleapis.com/css2?family=Russo+One');
+loadCSS('https://fonts.googleapis.com/css2?family=Rubik:wght@500');
 
 /* eslint no-console: 0 */
 console.info(
@@ -110,6 +110,14 @@ export class GcClockWords extends LitElement {
     // Set new language attribute
     const newLang = this._language.split('-')[0].toLowerCase();
     this.dataset.lang = newLang;
+
+    const lineDefs = LINE_DEFS[this._language] || LINE_DEFS['en-GB'];
+
+    if (lineDefs.styles && this.shadowRoot) {
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(lineDefs.styles);
+      this.shadowRoot.adoptedStyleSheets.push(sheet);
+    }
   }
 
   private updateData(): void {
@@ -152,14 +160,14 @@ export class GcClockWords extends LitElement {
     return 7;
   }
 
-  private isHour(hour?: number, shift?: number): boolean {
+  private isHour(hour?: number[], shift?: number): boolean {
     if (hour === undefined) return true;
 
     const currentHour = this.currentTime[0];
     const shouldShift = shift !== undefined && this.currentTime[1] >= shift;
     const adjustedHour = (currentHour + (shouldShift ? 1 : 0)) % 12;
 
-    return hour === adjustedHour;
+    return hour.includes(adjustedHour);
   }
 
   private isMinute(minute?: number[]): boolean {
@@ -173,15 +181,15 @@ export class GcClockWords extends LitElement {
    * Rendering
    */
   private renderWords(
-    words: Record<string, { h?: number; m?: number[]; next_h_from_minute?: number }>
+    words: Record<string, { h?: number[]; m?: number[]; next_h_from_minute?: number }>
   ): TemplateResult[] {
     return Object.entries(words).map(([word, condition]) => {
       const isActive =
         this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m);
 
-      return html`
-        <div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">${word}</div>
-      `;
+      return html`<div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">
+        ${word}
+      </div>`;
     });
   }
 
@@ -189,13 +197,13 @@ export class GcClockWords extends LitElement {
     if (!LINE_DEFS[this._language] && this.config.language) {
       return html`
         <ha-card class="gcclock-words">
-          <div>Language '${this._language}' not supported</div>
+          <div>Language '${this._language}' not supported.</div>
           <div>Supported languages: ${Object.keys(LINE_DEFS).join(', ')}</div>
-          <div>Please set the correct language in the card configuration</div>
+          <div>Please set the correct language in the card configuration.</div>
           <div>
             Consider
             <a href="https://github.com/gaco79/gcclock-words/issues">submitting an issue</a> to
-            support your language
+            support your language.
           </div>
         </ha-card>
       `;
@@ -205,7 +213,7 @@ export class GcClockWords extends LitElement {
 
     return html`
       <ha-card class="gcclock-words">
-        ${lineDefs.map(
+        ${lineDefs.lines.map(
           (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
         )}
       </ha-card>

@@ -1,7 +1,7 @@
-/** Condition for when to show a word */
+/** Condition for when to show a word (empty object means always show */
 interface WordCondition {
-  /** Hour condition (true means always show) */
-  h?: number;
+  /** Hour condition */
+  h?: number[];
   /** Minute threshold to start using next hour */
   next_h_from_minute?: number;
   /** Array of minute values (multiples of 5) */
@@ -14,4 +14,7 @@ interface ClockLine {
 }
 
 /** Complete clock definition for a language */
-export type ClockDefinition = ClockLine[];
+export type ClockDefinition = {
+  styles?: string;
+  lines: ClockLine[];
+};

@@ -1,80 +1,72 @@
 import { ClockDefinition } from '../types/ClockDefinition';
 
-/**
- * RUSSIAN TRANSLATION - Work in progress, may be incorrect
- *
- * Russian grammatical rules:
- * 10:00 - десять часов
- * 10:05 - пять минут первого
- * 10:10 - десять минут первого
- * 10:15 - четверть второго
- * 10:20 - двадцать минут второго
- * 10:25 - двадцать пять минут второго
- * 10:30 - половина третьего
- * 10:35 - тридцать пять минут третьего
- * 10:40 - сорок минут третьего
- * 10:45 - сорок пять минут третьего
- * 10:50 - десять минут четвертого
- * 10:55 - пять минут четвертого
- * 11:00 - одиннадцать часов
- *
- * From Calude.ai:
- * 10:00 - десять часов ✓ (correct)
- * 10:05 - пять минут одиннадцатого (not первого)
- * 10:10 - десять минут одиннадцатого (not первого)
- * 10:15 - четверть одиннадцатого (not второго)
- * 10:20 - двадцать минут одиннадцатого (not второго)
- * 10:25 - двадцать пять минут одиннадцатого (not второго)
- * 10:30 - половина одиннадцатого (not третьего)
- * 10:35 - без двадцати пяти одиннадцать (not тридцать пять минут третьего)
- * 10:40 - без двадцати одиннадцать (not сорок минут третьего)
- * 10:45 - без четверти одиннадцать (not сорок пять минут третьего)
- * 10:50 - без десяти одиннадцать (not десять минут четвертого)
- * 10:55 - без пяти одиннадцать (not пять минут четвертого)
- * 11:00 - одиннадцать часов ✓ (correct)
- *
- * The main concept to understand is that in Russian, times are expressed in relation to the upcoming hour,
- * not the previous one. Also, after 30 minutes past the hour, it's more common to express the time as
- *  "without X minutes until the next hour" (без X минут).
- */
-export const clockDefinition: ClockDefinition = [
-  {
-    сейчас: {}, // now
-    четверть: { m: [15, 45] }, // quarter
-  },
-  {
-    половина: { m: [30] }, // half
-    десять: { m: [10, 50] }, // ten
-  },
-  {
-    двадцать: { m: [20, 25, 35, 40] }, // twenty
-    пять: { m: [5, 25, 35, 55] }, // five
-    до: { m: [45, 50, 55] }, // before/to
-  },
-  {
-    после: { m: [5, 10, 25] }, // after/past
-    один: { h: 1, next_h_from_minute: 30 }, // one
-    два: { h: 2, next_h_from_minute: 30 }, // two
-  },
-  {
-    три: { h: 3, next_h_from_minute: 30 }, // three
-    четыре: { h: 4, next_h_from_minute: 30 }, // four
-    пять: { h: 5, next_h_from_minute: 30 }, // five
-  },
-  {
-    шесть: { h: 6, next_h_from_minute: 30 }, // six
-    семь: { h: 7, next_h_from_minute: 30 }, // seven
-    восемь: { h: 8, next_h_from_minute: 30 }, // eight
-  },
-  {
-    девять: { h: 9, next_h_from_minute: 30 }, // nine
-    десять: { h: 10, next_h_from_minute: 30 }, // ten
-  },
-  {
-    одиннадцать: { h: 11, next_h_from_minute: 30 }, // eleven
-  },
-  {
-    двенадцать: { h: 0, next_h_from_minute: 30 }, // twelve
-    часов: { m: [0] }, // hours/o'clock
-  },
-];
+/* Used https://www.facebook.com/qlocktwo/photos/qlocktwo-touch-alarm-clock-creators-edition-rust-in-russian-can-you-read-time-in/1136953726344346/ as baseline */
+
+export const clockDefinition: ClockDefinition = {
+  styles: `
+    .gcclock-words .line {
+      justify-content: center;
+    }
+    
+    .gcclock-words .line .word {
+      letter-spacing: 1.7cqw;
+    }
+    `,
+  lines: [
+    {
+      СЕИЧАС: {}, // it's
+      Г: { h: [] }, // filler
+      ДВА: { h: [2] }, // two
+      А: { h: [] }, // filler
+    },
+    {
+      ЧЕТЫРЕ: { h: [4] }, // four
+      ДВЕ: { h: [0] }, // twelve1
+      РЕ: { h: [] }, // filler
+    },
+    {
+      ОДИН: { h: [1, 11] }, // one, eleven1
+      НАДЦАТЬ: { h: [0, 11] }, // twelve2, eleven2
+    },
+    {
+      ТРИ: { h: [3] }, // three
+      ДЕ: { h: [9] }, // nine1
+      В: { h: [8, 9] }, // eight1, nine2
+      О: { h: [8] }, // eight2
+      СЕМЬ: { h: [7, 8] }, // seven, eight3
+    },
+    {
+      ДЕС: { h: [10] }, // ten2
+      ЯТЬ: { h: [9, 10] }, // nine3, ten2
+      Т: { h: [] }, // filler
+      ПЯТЬ: { h: [5] }, // five
+    },
+    {
+      ШЕСТЬ: { h: [6] }, // six
+      К: { h: [] }, // filler
+      ЧАСОВ: { h: [0, 5, 6, 7, 8, 9, 10, 11] }, // hour=5..12
+    },
+    {
+      ЧАС: { h: [1, 2, 3, 4] }, // hour=1, hour=2..4p1
+      А: { h: [2, 3, 4] }, // hour=2..4p2
+      У: { h: [] }, // filler
+      ДВА: { m: [20, 25] }, // twenty1
+      ТРИ: { m: [30] }, // thirty1
+    },
+    {
+      ПЯТ: { m: [15, 50, 55] }, // fifteen1, fifty1
+      НА: { m: [15] }, // fifteen2
+      ДЦАТЬ: { m: [15, 20, 25, 30, 35] }, // twenty, fifteen3, twenty2, thirty2
+      Л: { m: [15] }, // fifteen4
+    },
+    {
+      ЬДЕСЯТ: { m: [10, 50, 55] }, // ten, fifty2
+      СОРОК: { m: [40, 45] }, // forty
+    },
+    {
+      ПЯТЬ: { m: [5, 25, 35, 45, 55] }, // five
+      ПР: { h: [] }, // filler
+      МИНУТ: { m: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] }, // minutes
+    },
+  ],
+};
