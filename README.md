@@ -8,9 +8,10 @@
 <p align="center">A clock for Home Assistant to show the time in words.</p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-en.png" />
-  <img src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-de.png" />
-  <img src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-nl.png" />
+  <img width="20%" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-en.png" />
+  <img width="20%" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-de.png" />
+  <img width="20%" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-nl.png" />
+  <img width="20%" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-fr.png" />
 </p>
 
 ## 💾 Install
@@ -34,7 +35,7 @@ lovelace:
 
 ## 📐 Configuration
 
-In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to find "Custom: Time In Words". All options except language can be configured by the graphical editor. `language:` can be used as a key in the YAML editor and specifying `en-GB`, `nl`, or `de`. This is not currently configurable via the graphical editor.
+In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to find "Custom: Time In Words". All options except language can be configured by the graphical editor.
 
 #### Sample Configuration
 
@@ -44,6 +45,13 @@ highlight_text_color: "#dd4b4b"
 show_highlight_glow: false
 muted_text_brightness: 0.07
 ```
+
+| Name | Type | Default | Values |
+| ---- | :--: | :-----: | ----------- |
+| `highlight_text_color` | string | The primary colour from your Home Assistant theme | Any valid hex colour eg "<span style="color:#3366bb">#3366bb</span>", "<span style="color:#00ff33">#00ff33</span>", "<span style="color:#6842a9">#6842a9</span>" |
+| `show_highlight_glow` | bool | true | `true` or `false` |
+| `muted_text_brightness` | number | 0.1 | Any decimal from 0 to 1. Sets brightness of "background" words |
+| `language` | string | Your local language, or English if not supported | `de`, `en-GB`, `fr`, `nl`, `ru`
 
 ## Alternatives
 
