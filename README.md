@@ -46,12 +46,12 @@ show_highlight_glow: false
 muted_text_brightness: 0.07
 ```
 
-| Name | Type | Default | Values |
-| ---- | :--: | :-----: | ----------- |
-| `highlight_text_color` | string | The primary colour from your Home Assistant theme | Any valid hex colour eg "<span style="color:#3366bb">#3366bb</span>", "<span style="color:#00ff33">#00ff33</span>", "<span style="color:#6842a9">#6842a9</span>" |
-| `show_highlight_glow` | bool | true | `true` or `false` |
-| `muted_text_brightness` | number | 0.1 | Any decimal from 0 to 1. Sets brightness of "background" words |
-| `language` | string | Your local language, or English if not supported | `de`, `en-GB`, `fr`, `nl`, `ru`
+| Name                    |  Type  |                      Default                      | Values                                                                                                                                                           |
+| ----------------------- | :----: | :-----------------------------------------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `highlight_text_color`  | string | The primary colour from your Home Assistant theme | Any valid hex colour eg "<span style="color:#3366bb">#3366bb</span>", "<span style="color:#00ff33">#00ff33</span>", "<span style="color:#6842a9">#6842a9</span>" |
+| `show_highlight_glow`   |  bool  |                       true                        | `true` or `false`                                                                                                                                                |
+| `muted_text_brightness` | number |                        0.1                        | Any decimal from 0.0 to 1.0. Sets brightness of "background" words                                                                                               |
+| `language`              | string | Your local language, or English if not supported  | `de`, `en-GB`, `fr`, `nl`, `ru`                                                                                                                                  |
 
 ## Alternatives
 
