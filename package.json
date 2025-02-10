@@ -29,7 +29,7 @@
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",
-    "@typescript-eslint/eslint-plugin": "^8.21.0",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.23.0",
     "prettier": "3.4.2",
     "release-it": "^18.1.2",
