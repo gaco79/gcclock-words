@@ -18,7 +18,7 @@
     "@lit-labs/scoped-registry-mixin": "^1.0.3",
     "color": "^4.2.3",
     "custom-card-helpers": "^1.6.6",
-    "home-assistant-js-websocket": "^4.5.0",
+    "home-assistant-js-websocket": "^9.4.0",
     "lit": "^3.2.1"
   },
   "devDependencies": {
