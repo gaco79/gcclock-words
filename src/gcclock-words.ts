@@ -114,8 +114,12 @@ export class GcClockWords extends LitElement {
   }
 
   private updateData(): void {
-    const dateTime = new Date();
-    this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
+    if (this.config.hour && this.config.minute) {
+      this.currentTime = [this.config.hour, this.config.minute];
+    } else {
+      const dateTime = new Date();
+      this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
+    }
 
     //for testing
     //this.currentTime = [0, 30];
