@@ -1,6 +1,6 @@
 {
   "name": "gcclock-words",
-  "version": "0.0.8-beta.1",
+  "version": "0.0.8-beta.2",
   "description": "Clock card for Home Assistant Lovelace UI. Displays the time in words.",
   "keywords": [
     "home-assistant",
