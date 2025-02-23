@@ -161,19 +161,15 @@ export class GcClockWords extends LitElement {
     if (hour === undefined) return true;
 
     const currentHour = this.currentTime[0];
-    const shouldShift = shift !== undefined && this.currentTime[1] >= shift;
+    const shouldShift = shift !== undefined && this.min5 >= shift;
     const adjustedHour = (currentHour + (shouldShift ? 1 : 0)) % 12;
 
     return hour.includes(adjustedHour);
   }
 
-  get now5(): number {
-    return this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
-  }
-
   private isMinute(minute?: number[]): boolean {
     if (minute === undefined) return true;  
-    return minute.includes(this.now5);
+    return minute.includes(this.min5);
   }
 
   /**
@@ -217,6 +213,10 @@ export class GcClockWords extends LitElement {
         )}
       </ha-card>
     `;
+  }
+
+  get min5(): number {
+    return this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
   }
 
   get _highlightTextColor(): string {
