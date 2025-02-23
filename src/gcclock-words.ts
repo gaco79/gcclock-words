@@ -168,7 +168,7 @@ export class GcClockWords extends LitElement {
   }
 
   private isMinute(minute?: number[]): boolean {
-    if (minute === undefined) return true;  
+    if (minute === undefined) return true;
     return minute.includes(this.min5);
   }
 
