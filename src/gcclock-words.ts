@@ -114,7 +114,7 @@ export class GcClockWords extends LitElement {
   }
 
   private updateData(): void {
-    if (this.config.hour && this.config.minute) {
+    if (this.config.hour !== undefined && this.config.minute !== undefined) {
       this.currentTime = [this.config.hour, this.config.minute];
     } else {
       const dateTime = new Date();
