@@ -43,6 +43,6 @@
     "rollup": "rollup -c",
     "format": "eslint 'src/**/*.ts' --fix && prettier --config .prettierrc 'src/**/*.ts' --write",
     "start": "rollup -c rollup.config.dev.js --watch -m",
-    "release": "release-it"
+    "release": "npm run check && release-it"
   }
 }
