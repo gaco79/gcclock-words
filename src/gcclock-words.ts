@@ -9,7 +9,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { CSSResult, html, LitElement, TemplateResult } from 'lit';
 
 import { DEFAULT_CONFIG } from './const';
-import style from './style';
+import styles from './style';
 import { GcclockWordsCardConfig } from './types/config';
 
 function loadCSS(url): void {
@@ -167,11 +167,13 @@ export class GcClockWords extends LitElement {
     return hour.includes(adjustedHour);
   }
 
-  private isMinute(minute?: number[]): boolean {
-    if (minute === undefined) return true;
+  get now5(): number {
+    return this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
+  }
 
-    const now5: number = this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
-    return minute.includes(now5);
+  private isMinute(minute?: number[]): boolean {
+    if (minute === undefined) return true;  
+    return minute.includes(this.now5);
   }
 
   /**
@@ -230,7 +232,5 @@ export class GcClockWords extends LitElement {
     return lang;
   }
 
-  static get styles(): CSSResult {
-    return style;
-  }
+  static styles: CSSResult = styles;
 }
