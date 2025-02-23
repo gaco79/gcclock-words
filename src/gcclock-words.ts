@@ -169,7 +169,7 @@ export class GcClockWords extends LitElement {
 
   private isMinute(minute?: number[]): boolean {
     if (minute === undefined) return true;
-    return minute.includes(this.min5);
+    return minute.includes(this.min5 % 60);
   }
 
   /**
@@ -216,7 +216,7 @@ export class GcClockWords extends LitElement {
   }
 
   get min5(): number {
-    return this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
+    return 5 * Math.round(this.currentTime[1] / 5);
   }
 
   get _highlightTextColor(): string {
