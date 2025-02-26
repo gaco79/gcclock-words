@@ -9,7 +9,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { CSSResult, html, LitElement, TemplateResult } from 'lit';
 
 import { DEFAULT_CONFIG } from './const';
-import style from './style';
+import styles from './style';
 import { GcclockWordsCardConfig } from './types/config';
 
 function loadCSS(url): void {
@@ -114,8 +114,12 @@ export class GcClockWords extends LitElement {
   }
 
   private updateData(): void {
-    const dateTime = new Date();
-    this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
+    if (this.config.hour !== undefined && this.config.minute !== undefined) {
+      this.currentTime = [this.config.hour, this.config.minute];
+    } else {
+      const dateTime = new Date();
+      this.currentTime = [dateTime.getHours(), dateTime.getMinutes()];
+    }
 
     //for testing
     //this.currentTime = [0, 30];
@@ -157,7 +161,7 @@ export class GcClockWords extends LitElement {
     if (hour === undefined) return true;
 
     const currentHour = this.currentTime[0];
-    const shouldShift = shift !== undefined && this.currentTime[1] >= shift;
+    const shouldShift = shift !== undefined && this.min5 >= shift;
     const adjustedHour = (currentHour + (shouldShift ? 1 : 0)) % 12;
 
     return hour.includes(adjustedHour);
@@ -165,9 +169,7 @@ export class GcClockWords extends LitElement {
 
   private isMinute(minute?: number[]): boolean {
     if (minute === undefined) return true;
-
-    const now5: number = this.currentTime[1] > 57 ? 0 : 5 * Math.round(this.currentTime[1] / 5);
-    return minute.includes(now5);
+    return minute.includes(this.min5 % 60);
   }
 
   /**
@@ -213,6 +215,10 @@ export class GcClockWords extends LitElement {
     `;
   }
 
+  get min5(): number {
+    return 5 * Math.round(this.currentTime[1] / 5);
+  }
+
   get _highlightTextColor(): string {
     return this.config.highlight_text_color ?? DEFAULT_CONFIG.highlight_text_color;
   }
@@ -226,7 +232,5 @@ export class GcClockWords extends LitElement {
     return lang;
   }
 
-  static get styles(): CSSResult {
-    return style;
-  }
+  static styles: CSSResult = styles;
 }
