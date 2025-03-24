@@ -13,8 +13,7 @@ import { GcclockWordsCardConfig } from './types/config';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class GcclockWordsEditor
   extends ScopedRegistryHost(LitElement)
-  implements LovelaceCardEditor
-{
+  implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
 
   @state() private _config?: GcclockWordsCardConfig;
@@ -59,6 +58,15 @@ export class GcclockWordsEditor
         },
       },
     },
+    {
+      name: "tap_action",
+      selector: {
+        ui_action: {
+          default_action: "more-info",
+          actions: ["navigate", "assist", "perform-action", "none"],
+        },
+      },
+    },
   ];
 
   private _computeLabel(schema): string {
@@ -71,9 +79,11 @@ export class GcclockWordsEditor
         return 'Text Glow?';
       case 'muted_text_brightness':
         return 'Muted Text Brightness';
+      case 'tap_action':
+        return 'Tap Action';
     }
 
-    return 'aubergine';
+    return 'No Label Text Defined';
   }
 
   protected render(): TemplateResult | void {

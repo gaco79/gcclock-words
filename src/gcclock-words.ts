@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import './editor';
 import { LINE_DEFS } from './lang';
 
