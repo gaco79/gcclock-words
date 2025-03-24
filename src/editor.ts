@@ -62,7 +62,7 @@ export class GcclockWordsEditor
       name: "tap_action",
       selector: {
         ui_action: {
-          default_action: "more-info",
+          default_action: "none",
           actions: ["navigate", "assist", "perform-action", "none"],
         },
       },
