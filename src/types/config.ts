@@ -7,4 +7,6 @@ export interface GcclockWordsCardConfig extends LovelaceCardConfig {
   muted_text_brightness?: number;
   language?: string;
   tap_action?: ActionConfig;
+  hold_action?: ActionConfig;
+  double_tap_action?: ActionConfig;
 }

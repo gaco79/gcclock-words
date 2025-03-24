@@ -3,7 +3,7 @@ import { LINE_DEFS } from './lang';
 
 import { version } from '../package.json';
 
-import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
+import { ActionHandlerEvent, fireEvent, hasAction, HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
 import { customElement, property, state } from 'lit/decorators.js';
 import { CSSResult, html, LitElement, TemplateResult } from 'lit';
 
@@ -187,6 +187,13 @@ export class GcClockWords extends LitElement {
     });
   }
 
+  private _handleAction(ev: ActionHandlerEvent) {
+    fireEvent(this, "hass-action", {
+      config: this.config!,
+      action: ev.detail.action,
+    });
+  }
+
   protected render(): TemplateResult {
     if (!LINE_DEFS[this._language] && this.config.language) {
       return html`
@@ -206,10 +213,18 @@ export class GcClockWords extends LitElement {
     const lineDefs = LINE_DEFS[this._language] || LINE_DEFS['en-GB'];
 
     return html`
-      <ha-card class="gcclock-words">
-        ${lineDefs.lines.map(
-          (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
-        )}
+      <ha-card 
+        class="gcclock-words"
+        @action=${this._handleAction}
+        .actionHandler=${actionHandler({
+      hasHold: hasAction(this.config.hold_action),
+      hasDoubleClick: hasAction(this.config.double_tap_action),
+    })}
+        tabindex="0"
+      >
+      ${lineDefs.lines.map(
+      (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
+    )}
       </ha-card>
     `;
   }

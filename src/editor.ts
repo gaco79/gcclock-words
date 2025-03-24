@@ -67,6 +67,24 @@ export class GcclockWordsEditor
         },
       },
     },
+    {
+      name: "hold_action",
+      selector: {
+        ui_action: {
+          default_action: "none",
+          actions: ["navigate", "assist", "perform-action", "none"],
+        },
+      },
+    },
+    {
+      name: "double_tap_action",
+      selector: {
+        ui_action: {
+          default_action: "none",
+          actions: ["navigate", "assist", "perform-action", "none"],
+        },
+      },
+    },
   ];
 
   private _computeLabel(schema): string {
@@ -81,6 +99,10 @@ export class GcclockWordsEditor
         return 'Muted Text Brightness';
       case 'tap_action':
         return 'Tap Action';
+      case 'hold_action':
+        return 'Hold Action';
+      case 'double_tap_action':
+        return 'Double Tap Action';
     }
 
     return 'No Label Text Defined';
