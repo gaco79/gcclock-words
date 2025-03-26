@@ -310,8 +310,8 @@ export class GcClockWords extends LitElement {
     return html`
       <ha-card class="gcclock-words">
         ${lineDefs.lines.map(
-      (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
-    )}
+          (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
+        )}
       </ha-card>
     `;
   }
