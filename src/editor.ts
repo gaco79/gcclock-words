@@ -59,31 +59,38 @@ export class GcclockWordsEditor
       },
     },
     {
-      name: "tap_action",
-      selector: {
-        ui_action: {
-          default_action: "none",
-          actions: ["navigate", "assist", "perform-action", "none"],
+      name: 'actions',
+      type: 'expandable',
+      title: 'Actions',
+      schema: [
+        {
+          name: "tap_action",
+          selector: {
+            ui_action: {
+              default_action: "none",
+              actions: ["navigate", "url", "perform-action", "none"], // TODO implement assist
+            },
+          },
         },
-      },
-    },
-    {
-      name: "hold_action",
-      selector: {
-        ui_action: {
-          default_action: "none",
-          actions: ["navigate", "assist", "perform-action", "none"],
+        {
+          name: "double_tap_action",
+          selector: {
+            ui_action: {
+              default_action: "none",
+              actions: ["navigate", "url", "perform-action", "none"],
+            },
+          },
         },
-      },
-    },
-    {
-      name: "double_tap_action",
-      selector: {
-        ui_action: {
-          default_action: "none",
-          actions: ["navigate", "assist", "perform-action", "none"],
+        {
+          name: "hold_action",
+          selector: {
+            ui_action: {
+              default_action: "none",
+              actions: ["navigate", "url", "perform-action", "none"],
+            },
+          },
         },
-      },
+      ],
     },
   ];
 

@@ -3,7 +3,7 @@ import { LINE_DEFS } from './lang';
 
 import { version } from '../package.json';
 
-import { ActionHandlerEvent, fireEvent, handleAction, HomeAssistant, LovelaceCardEditor, navigate } from 'custom-card-helpers';
+import { HomeAssistant, LovelaceCardEditor, navigate } from 'custom-card-helpers';
 import { customElement, property, state } from 'lit/decorators.js';
 import { CSSResult, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 
@@ -54,6 +54,8 @@ export class GcClockWords extends LitElement {
   _dblClickDuration = 250;
   _holdTimeout: NodeJS.Timeout | null = null;
   _holdDuration = 500;
+
+  // #region Setup
 
   /**
    * Called when the state of Home Assistant changes (frequent).
@@ -157,6 +159,10 @@ export class GcClockWords extends LitElement {
     this._removeEventHandlers();
   }
 
+  // #endregion
+
+  // #region Event Handlers
+
   _setupEventHandlers() {
     const card = this.shadowRoot?.querySelector('ha-card');
     if (!card) return;
@@ -170,24 +176,19 @@ export class GcClockWords extends LitElement {
   }
 
   _onClick(ev: Event) {
-    console.log('click', ev);
-
     if (this._dblClickTimeout) {
       // This is a double click
-      console.log('double click', ev);
-
       clearTimeout(this._dblClickTimeout);
       this._dblClickTimeout = null;
-      if (this.config.double_tap_action) {
-        this._handleActionConfig(this.config.double_tap_action);
+      if (this.config.actions.double_tap_action) {
+        this._handleActionConfig(this.config.actions.double_tap_action);
       }
     } else {
       // This might be a single click or first click of a double click
-      this._dblClickTimeout = setTimeout(() => {
-        console.log('single click', ev);
+      this._dblClickTimeout = setTimeout(async () => {
         this._dblClickTimeout = null;
-        if (this.config.tap_action) {
-          this._handleActionConfig(this.config.tap_action);
+        if (this.config.actions.tap_action) {
+          await this._handleActionConfig(this.config.actions.tap_action);
         }
       }, this._dblClickDuration); // Wait for potential second click
     }
@@ -212,9 +213,10 @@ export class GcClockWords extends LitElement {
   _startHoldTimer() {
     this._clearHoldTimer();
     this._holdTimeout = setTimeout(() => {
+      console.log('hold');
       this._holdTimeout = null;
       if (this.config.hold_action) {
-        this._handleActionConfig(this.config.hold_action);
+        this._handleActionConfig(this.config.actions.hold_action);
       }
     }, this._holdDuration);
   }
@@ -226,24 +228,25 @@ export class GcClockWords extends LitElement {
     }
   }
 
-  _handleActionConfig(actionConfig) {
+  async _handleActionConfig(actionConfig) {
     if (!actionConfig) return;
+    console.log('_handleActionConfig', actionConfig);
 
     switch (actionConfig.action) {
-      case 'perform_action':
-        if (actionConfig.service) {
-          const [domain, service] = actionConfig.service.split('.');
-          this.hass.callService(domain, service, actionConfig.service_data || {});
+      case 'perform-action':
+        if (actionConfig.perform_action) {
+          const [domain, service] = actionConfig.perform_action.split('.');
+          await this._hass.callService(domain, service, actionConfig.data || {}, actionConfig.target || {});
+        }
+        break;
+      case 'url':
+        if (actionConfig.url_path) {
+          window.open(actionConfig.url_path);
         }
         break;
       case 'navigate':
         if (actionConfig.navigation_path) {
           navigate(this, actionConfig.navigation_path);
-        }
-        break;
-      case 'url':
-        if (actionConfig.url) {
-          window.open(actionConfig.url);
         }
         break;
       // Add other action handlers as needed
@@ -261,6 +264,10 @@ export class GcClockWords extends LitElement {
     card.removeEventListener('touchend', this._onTouchEnd.bind(this));
   }
 
+  // #endregion
+
+  // #region Clock functions
+
   private isHour(hour?: number[], shift?: number): boolean {
     if (hour === undefined) return true;
 
@@ -275,6 +282,14 @@ export class GcClockWords extends LitElement {
     if (minute === undefined) return true;
     return minute.includes(this.min5 % 60);
   }
+
+  get min5(): number {
+    return 5 * Math.round(this.currentTime[1] / 5);
+  }
+
+  // #endregion
+
+  // #region output
 
   /**
    * Rendering
@@ -319,9 +334,10 @@ export class GcClockWords extends LitElement {
     `;
   }
 
-  get min5(): number {
-    return 5 * Math.round(this.currentTime[1] / 5);
-  }
+  // #endregion
+
+
+  // #region Getters
 
   get _highlightTextColor(): string {
     return this.config.highlight_text_color ?? DEFAULT_CONFIG.highlight_text_color;
@@ -343,4 +359,6 @@ export class GcClockWords extends LitElement {
   getCardSize(): number {
     return 7;
   }
+
+  // #endregion
 }
