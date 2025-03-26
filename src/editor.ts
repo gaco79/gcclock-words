@@ -13,7 +13,8 @@ import { GcclockWordsCardConfig } from './types/config';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class GcclockWordsEditor
   extends ScopedRegistryHost(LitElement)
-  implements LovelaceCardEditor {
+  implements LovelaceCardEditor
+{
   @property({ attribute: false }) public hass?: HomeAssistant;
 
   @state() private _config?: GcclockWordsCardConfig;
@@ -64,29 +65,29 @@ export class GcclockWordsEditor
       title: 'Actions',
       schema: [
         {
-          name: "tap_action",
+          name: 'tap_action',
           selector: {
             ui_action: {
-              default_action: "none",
-              actions: ["navigate", "url", "perform-action", "none"], // TODO implement assist
+              default_action: 'none',
+              actions: ['navigate', 'url', 'perform-action', 'none'], // TODO implement assist
             },
           },
         },
         {
-          name: "double_tap_action",
+          name: 'double_tap_action',
           selector: {
             ui_action: {
-              default_action: "none",
-              actions: ["navigate", "url", "perform-action", "none"],
+              default_action: 'none',
+              actions: ['navigate', 'url', 'perform-action', 'none'],
             },
           },
         },
         {
-          name: "hold_action",
+          name: 'hold_action',
           selector: {
             ui_action: {
-              default_action: "none",
-              actions: ["navigate", "url", "perform-action", "none"],
+              default_action: 'none',
+              actions: ['navigate', 'url', 'perform-action', 'none'],
             },
           },
         },

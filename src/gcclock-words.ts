@@ -11,29 +11,6 @@ import { DEFAULT_CONFIG } from './const';
 import styles from './style';
 import { GcclockWordsCardConfig } from './types/config';
 
-function loadCSS(url): void {
-  const link = document.createElement('link');
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
-  link.href = url;
-  document.head.appendChild(link);
-}
-loadCSS('https://fonts.googleapis.com/css2?family=Rubik:wght@500');
-
-/* eslint no-console: 0 */
-console.info(
-  `%c gcclock-words ${version}`,
-  'color: white; background-color:rgb(34, 110, 197); font-weight: 700;'
-);
-
-// This puts your card into the UI card picker dialog
-(window as any).customCards = (window as any).customCards || [];
-(window as any).customCards.push({
-  type: 'gcclock-words',
-  name: 'Time in Words',
-  description: 'Clock displaying Time in Words.',
-});
-
 @customElement('gcclock-words')
 export class GcClockWords extends LitElement {
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
@@ -175,7 +152,7 @@ export class GcClockWords extends LitElement {
     card.addEventListener('touchend', this._onTouchEnd.bind(this));
   }
 
-  _onClick(ev: Event) {
+  _onClick() {
     if (this._dblClickTimeout) {
       // This is a double click
       clearTimeout(this._dblClickTimeout);
@@ -194,19 +171,19 @@ export class GcClockWords extends LitElement {
     }
   }
 
-  _onMouseDown(ev) {
+  _onMouseDown() {
     this._startHoldTimer();
   }
 
-  _onMouseUp(ev) {
+  _onMouseUp() {
     this._clearHoldTimer();
   }
 
-  _onTouchStart(ev) {
+  _onTouchStart() {
     this._startHoldTimer();
   }
 
-  _onTouchEnd(ev) {
+  _onTouchEnd() {
     this._clearHoldTimer();
   }
 
@@ -236,7 +213,12 @@ export class GcClockWords extends LitElement {
       case 'perform-action':
         if (actionConfig.perform_action) {
           const [domain, service] = actionConfig.perform_action.split('.');
-          await this._hass.callService(domain, service, actionConfig.data || {}, actionConfig.target || {});
+          await this._hass.callService(
+            domain,
+            service,
+            actionConfig.data || {},
+            actionConfig.target || {}
+          );
         }
         break;
       case 'url':
@@ -327,15 +309,14 @@ export class GcClockWords extends LitElement {
 
     return html`
       <ha-card class="gcclock-words">
-      ${lineDefs.lines.map(
-      (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
-    )}
+        ${lineDefs.lines.map(
+          (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
+        )}
       </ha-card>
     `;
   }
 
   // #endregion
-
 
   // #region Getters
 
@@ -362,3 +343,37 @@ export class GcClockWords extends LitElement {
 
   // #endregion
 }
+
+// Add this type declaration to fix TypeScript error re customCard
+declare global {
+  interface Window {
+    customCards: Array<{
+      type: string;
+      name: string;
+      description: string;
+    }>;
+  }
+}
+
+function loadCSS(url): void {
+  const link = document.createElement('link');
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  link.href = url;
+  document.head.appendChild(link);
+}
+loadCSS('https://fonts.googleapis.com/css2?family=Rubik:wght@500');
+
+/* eslint no-console: 0 */
+console.info(
+  `%c gcclock-words ${version}`,
+  'color: white; background-color:rgb(34, 110, 197); font-weight: 700;'
+);
+
+// This puts your card into the UI card picker dialog
+window.customCards = window.customCards || [];
+window.customCards.push({
+  type: 'gcclock-words',
+  name: 'Time in Words',
+  description: 'Clock displaying Time in Words.',
+});
