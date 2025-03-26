@@ -59,6 +59,40 @@ export class GcclockWordsEditor
         },
       },
     },
+    {
+      name: 'actions',
+      type: 'expandable',
+      title: 'Actions',
+      schema: [
+        {
+          name: 'tap_action',
+          selector: {
+            ui_action: {
+              default_action: 'none',
+              actions: ['navigate', 'url', 'perform-action', 'none'], // TODO implement assist
+            },
+          },
+        },
+        {
+          name: 'double_tap_action',
+          selector: {
+            ui_action: {
+              default_action: 'none',
+              actions: ['navigate', 'url', 'perform-action', 'none'],
+            },
+          },
+        },
+        {
+          name: 'hold_action',
+          selector: {
+            ui_action: {
+              default_action: 'none',
+              actions: ['navigate', 'url', 'perform-action', 'none'],
+            },
+          },
+        },
+      ],
+    },
   ];
 
   private _computeLabel(schema): string {
@@ -71,9 +105,15 @@ export class GcclockWordsEditor
         return 'Text Glow?';
       case 'muted_text_brightness':
         return 'Muted Text Brightness';
+      case 'tap_action':
+        return 'Tap Action';
+      case 'hold_action':
+        return 'Hold Action';
+      case 'double_tap_action':
+        return 'Double Tap Action';
     }
 
-    return 'aubergine';
+    return 'No Label Text Defined';
   }
 
   protected render(): TemplateResult | void {

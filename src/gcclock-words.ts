@@ -1,39 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import './editor';
 import { LINE_DEFS } from './lang';
 
 import { version } from '../package.json';
 
-import { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
+import { HomeAssistant, LovelaceCardEditor, navigate } from 'custom-card-helpers';
 import { customElement, property, state } from 'lit/decorators.js';
-import { CSSResult, html, LitElement, TemplateResult } from 'lit';
+import { CSSResult, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 
 import { DEFAULT_CONFIG } from './const';
 import styles from './style';
 import { GcclockWordsCardConfig } from './types/config';
-
-function loadCSS(url): void {
-  const link = document.createElement('link');
-  link.type = 'text/css';
-  link.rel = 'stylesheet';
-  link.href = url;
-  document.head.appendChild(link);
-}
-loadCSS('https://fonts.googleapis.com/css2?family=Rubik:wght@500');
-
-/* eslint no-console: 0 */
-console.info(
-  `%c gcclock-words ${version}`,
-  'color: white; background-color:rgb(34, 110, 197); font-weight: 700;'
-);
-
-// This puts your card into the UI card picker dialog
-(window as any).customCards = (window as any).customCards || [];
-(window as any).customCards.push({
-  type: 'gcclock-words',
-  name: 'Time in Words',
-  description: 'Clock displaying Time in Words.',
-});
 
 @customElement('gcclock-words')
 export class GcClockWords extends LitElement {
@@ -51,6 +27,13 @@ export class GcClockWords extends LitElement {
   @state() activeStyle!: string;
   @state() inactiveStyle!: string;
 
+  _dblClickTimeout: NodeJS.Timeout | null = null;
+  _dblClickDuration = 250;
+  _holdTimeout: NodeJS.Timeout | null = null;
+  _holdDuration = 500;
+
+  // #region Setup
+
   /**
    * Called when the state of Home Assistant changes (frequent).
    * @param hass The new hass.
@@ -58,13 +41,6 @@ export class GcClockWords extends LitElement {
   public set hass(hass: HomeAssistant) {
     this.updateData();
     this._hass = hass;
-  }
-
-  /**
-   * The list of clickable actions
-   */
-  public get actions(): string[] {
-    return ['more-info', 'url', 'navigate', 'toggle', 'call-service', 'fire-dom-event'];
   }
 
   /**
@@ -143,19 +119,136 @@ export class GcClockWords extends LitElement {
     this.updateData();
   }
 
+  protected firstUpdated(_changedProperties: PropertyValues): void {
+    super.firstUpdated(_changedProperties);
+
+    this._setupEventHandlers();
+  }
+
   public disconnectedCallback(): void {
+    super.disconnectedCallback();
+
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = undefined;
     }
-    super.disconnectedCallback();
+
+    this._removeEventHandlers();
   }
 
-  // The height of your card. Home Assistant uses this to automatically
-  // distribute all cards over the available columns.
-  getCardSize(): number {
-    return 7;
+  // #endregion
+
+  // #region Event Handlers
+
+  _setupEventHandlers() {
+    const card = this.shadowRoot?.querySelector('ha-card');
+    if (!card) return;
+
+    card.addEventListener('click', this._onClick.bind(this));
+
+    card.addEventListener('mousedown', this._onMouseDown.bind(this));
+    card.addEventListener('mouseup', this._onMouseUp.bind(this));
+    card.addEventListener('touchstart', this._onTouchStart.bind(this), { passive: true });
+    card.addEventListener('touchend', this._onTouchEnd.bind(this));
   }
+
+  _onClick() {
+    if (this._dblClickTimeout) {
+      // This is a double click
+      clearTimeout(this._dblClickTimeout);
+      this._dblClickTimeout = null;
+      if (this.config.actions.double_tap_action) {
+        this._handleActionConfig(this.config.actions.double_tap_action);
+      }
+    } else {
+      // This might be a single click or first click of a double click
+      this._dblClickTimeout = setTimeout(async () => {
+        this._dblClickTimeout = null;
+        if (this.config.actions.tap_action) {
+          await this._handleActionConfig(this.config.actions.tap_action);
+        }
+      }, this._dblClickDuration); // Wait for potential second click
+    }
+  }
+
+  _onMouseDown() {
+    this._startHoldTimer();
+  }
+
+  _onMouseUp() {
+    this._clearHoldTimer();
+  }
+
+  _onTouchStart() {
+    this._startHoldTimer();
+  }
+
+  _onTouchEnd() {
+    this._clearHoldTimer();
+  }
+
+  _startHoldTimer() {
+    this._clearHoldTimer();
+    this._holdTimeout = setTimeout(() => {
+      console.log('hold');
+      this._holdTimeout = null;
+      if (this.config.hold_action) {
+        this._handleActionConfig(this.config.actions.hold_action);
+      }
+    }, this._holdDuration);
+  }
+
+  _clearHoldTimer() {
+    if (this._holdTimeout) {
+      clearTimeout(this._holdTimeout);
+      this._holdTimeout = null;
+    }
+  }
+
+  async _handleActionConfig(actionConfig) {
+    if (!actionConfig) return;
+    //console.log('_handleActionConfig', actionConfig);
+
+    switch (actionConfig.action) {
+      case 'perform-action':
+        if (actionConfig.perform_action) {
+          const [domain, service] = actionConfig.perform_action.split('.');
+          await this._hass.callService(
+            domain,
+            service,
+            actionConfig.data || {},
+            actionConfig.target || {}
+          );
+        }
+        break;
+      case 'url':
+        if (actionConfig.url_path) {
+          window.open(actionConfig.url_path);
+        }
+        break;
+      case 'navigate':
+        if (actionConfig.navigation_path) {
+          navigate(this, actionConfig.navigation_path);
+        }
+        break;
+      // Add other action handlers as needed
+    }
+  }
+
+  _removeEventHandlers() {
+    const card = this.shadowRoot?.querySelector('ha-card');
+    if (!card) return;
+
+    card.removeEventListener('click', this._onClick.bind(this));
+    card.removeEventListener('mousedown', this._onMouseDown.bind(this));
+    card.removeEventListener('mouseup', this._onMouseUp.bind(this));
+    card.removeEventListener('touchstart', this._onTouchStart.bind(this));
+    card.removeEventListener('touchend', this._onTouchEnd.bind(this));
+  }
+
+  // #endregion
+
+  // #region Clock functions
 
   private isHour(hour?: number[], shift?: number): boolean {
     if (hour === undefined) return true;
@@ -171,6 +264,14 @@ export class GcClockWords extends LitElement {
     if (minute === undefined) return true;
     return minute.includes(this.min5 % 60);
   }
+
+  get min5(): number {
+    return 5 * Math.round(this.currentTime[1] / 5);
+  }
+
+  // #endregion
+
+  // #region output
 
   /**
    * Rendering
@@ -215,9 +316,9 @@ export class GcClockWords extends LitElement {
     `;
   }
 
-  get min5(): number {
-    return 5 * Math.round(this.currentTime[1] / 5);
-  }
+  // #endregion
+
+  // #region Getters
 
   get _highlightTextColor(): string {
     return this.config.highlight_text_color ?? DEFAULT_CONFIG.highlight_text_color;
@@ -233,4 +334,46 @@ export class GcClockWords extends LitElement {
   }
 
   static styles: CSSResult = styles;
+
+  // The height of your card. Home Assistant uses this to automatically
+  // distribute all cards over the available columns.
+  getCardSize(): number {
+    return 7;
+  }
+
+  // #endregion
 }
+
+// Add this type declaration to fix TypeScript error re customCard
+declare global {
+  interface Window {
+    customCards: Array<{
+      type: string;
+      name: string;
+      description: string;
+    }>;
+  }
+}
+
+function loadCSS(url): void {
+  const link = document.createElement('link');
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  link.href = url;
+  document.head.appendChild(link);
+}
+loadCSS('https://fonts.googleapis.com/css2?family=Rubik:wght@500');
+
+/* eslint no-console: 0 */
+console.info(
+  `%c gcclock-words ${version}`,
+  'color: white; background-color:rgb(34, 110, 197); font-weight: 700;'
+);
+
+// This puts your card into the UI card picker dialog
+window.customCards = window.customCards || [];
+window.customCards.push({
+  type: 'gcclock-words',
+  name: 'Time in Words',
+  description: 'Clock displaying Time in Words.',
+});
