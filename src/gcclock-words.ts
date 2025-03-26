@@ -3,9 +3,9 @@ import { LINE_DEFS } from './lang';
 
 import { version } from '../package.json';
 
-import { ActionHandlerEvent, fireEvent, hasAction, HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
+import { ActionHandlerEvent, fireEvent, handleAction, HomeAssistant, LovelaceCardEditor, navigate } from 'custom-card-helpers';
 import { customElement, property, state } from 'lit/decorators.js';
-import { CSSResult, html, LitElement, TemplateResult } from 'lit';
+import { CSSResult, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 
 import { DEFAULT_CONFIG } from './const';
 import styles from './style';
@@ -50,6 +50,11 @@ export class GcClockWords extends LitElement {
   @state() activeStyle!: string;
   @state() inactiveStyle!: string;
 
+  _dblClickTimeout: NodeJS.Timeout | null = null;
+  _dblClickDuration = 250;
+  _holdTimeout: NodeJS.Timeout | null = null;
+  _holdDuration = 500;
+
   /**
    * Called when the state of Home Assistant changes (frequent).
    * @param hass The new hass.
@@ -57,13 +62,6 @@ export class GcClockWords extends LitElement {
   public set hass(hass: HomeAssistant) {
     this.updateData();
     this._hass = hass;
-  }
-
-  /**
-   * The list of clickable actions
-   */
-  public get actions(): string[] {
-    return ['more-info', 'url', 'navigate', 'toggle', 'call-service', 'fire-dom-event'];
   }
 
   /**
@@ -142,18 +140,125 @@ export class GcClockWords extends LitElement {
     this.updateData();
   }
 
+  protected firstUpdated(_changedProperties: PropertyValues): void {
+    super.firstUpdated(_changedProperties);
+
+    this._setupEventHandlers();
+  }
+
   public disconnectedCallback(): void {
+    super.disconnectedCallback();
+
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = undefined;
     }
-    super.disconnectedCallback();
+
+    this._removeEventHandlers();
   }
 
-  // The height of your card. Home Assistant uses this to automatically
-  // distribute all cards over the available columns.
-  getCardSize(): number {
-    return 7;
+  _setupEventHandlers() {
+    const card = this.shadowRoot?.querySelector('ha-card');
+    if (!card) return;
+
+    card.addEventListener('click', this._onClick.bind(this));
+
+    card.addEventListener('mousedown', this._onMouseDown.bind(this));
+    card.addEventListener('mouseup', this._onMouseUp.bind(this));
+    card.addEventListener('touchstart', this._onTouchStart.bind(this), { passive: true });
+    card.addEventListener('touchend', this._onTouchEnd.bind(this));
+  }
+
+  _onClick(ev: Event) {
+    console.log('click', ev);
+
+    if (this._dblClickTimeout) {
+      // This is a double click
+      console.log('double click', ev);
+
+      clearTimeout(this._dblClickTimeout);
+      this._dblClickTimeout = null;
+      if (this.config.double_tap_action) {
+        this._handleActionConfig(this.config.double_tap_action);
+      }
+    } else {
+      // This might be a single click or first click of a double click
+      this._dblClickTimeout = setTimeout(() => {
+        console.log('single click', ev);
+        this._dblClickTimeout = null;
+        if (this.config.tap_action) {
+          this._handleActionConfig(this.config.tap_action);
+        }
+      }, this._dblClickDuration); // Wait for potential second click
+    }
+  }
+
+  _onMouseDown(ev) {
+    this._startHoldTimer();
+  }
+
+  _onMouseUp(ev) {
+    this._clearHoldTimer();
+  }
+
+  _onTouchStart(ev) {
+    this._startHoldTimer();
+  }
+
+  _onTouchEnd(ev) {
+    this._clearHoldTimer();
+  }
+
+  _startHoldTimer() {
+    this._clearHoldTimer();
+    this._holdTimeout = setTimeout(() => {
+      this._holdTimeout = null;
+      if (this.config.hold_action) {
+        this._handleActionConfig(this.config.hold_action);
+      }
+    }, this._holdDuration);
+  }
+
+  _clearHoldTimer() {
+    if (this._holdTimeout) {
+      clearTimeout(this._holdTimeout);
+      this._holdTimeout = null;
+    }
+  }
+
+  _handleActionConfig(actionConfig) {
+    if (!actionConfig) return;
+
+    switch (actionConfig.action) {
+      case 'perform_action':
+        if (actionConfig.service) {
+          const [domain, service] = actionConfig.service.split('.');
+          this.hass.callService(domain, service, actionConfig.service_data || {});
+        }
+        break;
+      case 'navigate':
+        if (actionConfig.navigation_path) {
+          navigate(this, actionConfig.navigation_path);
+        }
+        break;
+      case 'url':
+        if (actionConfig.url) {
+          window.open(actionConfig.url);
+        }
+        break;
+      // Add other action handlers as needed
+    }
+  }
+
+  _removeEventHandlers() {
+    const card = this.shadowRoot?.querySelector('ha-card');
+    if (!card) return;
+
+    card.removeEventListener('click', this._onClick.bind(this));
+    card.removeEventListener('mousedown', this._onMouseDown.bind(this));
+    card.removeEventListener('mouseup', this._onMouseUp.bind(this));
+    card.removeEventListener('touchstart', this._onTouchStart.bind(this));
+    card.removeEventListener('touchend', this._onTouchEnd.bind(this));
   }
 
   private isHour(hour?: number[], shift?: number): boolean {
@@ -187,13 +292,6 @@ export class GcClockWords extends LitElement {
     });
   }
 
-  private _handleAction(ev: ActionHandlerEvent) {
-    fireEvent(this, "hass-action", {
-      config: this.config!,
-      action: ev.detail.action,
-    });
-  }
-
   protected render(): TemplateResult {
     if (!LINE_DEFS[this._language] && this.config.language) {
       return html`
@@ -213,15 +311,7 @@ export class GcClockWords extends LitElement {
     const lineDefs = LINE_DEFS[this._language] || LINE_DEFS['en-GB'];
 
     return html`
-      <ha-card 
-        class="gcclock-words"
-        @action=${this._handleAction}
-        .actionHandler=${actionHandler({
-      hasHold: hasAction(this.config.hold_action),
-      hasDoubleClick: hasAction(this.config.double_tap_action),
-    })}
-        tabindex="0"
-      >
+      <ha-card class="gcclock-words">
       ${lineDefs.lines.map(
       (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
     )}
@@ -247,4 +337,10 @@ export class GcClockWords extends LitElement {
   }
 
   static styles: CSSResult = styles;
+
+  // The height of your card. Home Assistant uses this to automatically
+  // distribute all cards over the available columns.
+  getCardSize(): number {
+    return 7;
+  }
 }
