@@ -14,7 +14,8 @@ import { DEFAULT_CONFIG } from './const';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class GcclockWordsEditor
   extends ScopedRegistryHost(LitElement)
-  implements LovelaceCardEditor {
+  implements LovelaceCardEditor
+{
   @property({ attribute: false }) public hass?: HomeAssistant;
 
   @state() private _config?: GcclockWordsCardConfig;
