@@ -8,6 +8,7 @@ import { css, CSSResultGroup, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
 import { GcclockWordsCardConfig } from './types/config';
+import { DEFAULT_CONFIG } from './const';
 
 @customElement('gcclock-words-editor')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -24,15 +25,15 @@ export class GcclockWordsEditor
   }
 
   get _highlight_text_color(): string {
-    return this._config?.highlight_text_color ?? 'var(--mdc-theme-primary)';
+    return this._config?.highlight_text_color ?? DEFAULT_CONFIG.highlight_text_color;
   }
 
   get _show_highlight_glow(): boolean {
-    return this._config?.show_highlight_glow ?? true;
+    return this._config?.show_highlight_glow ?? DEFAULT_CONFIG.show_highlight_glow;
   }
 
   get _muted_text_brightness(): number {
-    return this._config?.muted_text_brightness ?? 0.2;
+    return this._config?.muted_text_brightness ?? DEFAULT_CONFIG.muted_text_brightness;
   }
 
   SCHEMA = [
@@ -45,8 +46,13 @@ export class GcclockWordsEditor
         {
           name: 'highlight_text_color',
           selector: { color_hex: {} },
+          default: DEFAULT_CONFIG.highlight_text_color,
         },
-        { name: 'show_highlight_glow', selector: { boolean: {} } },
+        {
+          name: 'show_highlight_glow',
+          selector: { boolean: {} },
+          default: DEFAULT_CONFIG.show_highlight_glow,
+        },
       ],
     },
     {
@@ -58,6 +64,7 @@ export class GcclockWordsEditor
           step: 0.01,
         },
       },
+      default: DEFAULT_CONFIG.muted_text_brightness,
     },
     {
       name: 'actions',
