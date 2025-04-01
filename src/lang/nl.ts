@@ -6,6 +6,7 @@ export const clockDefinition: ClockDefinition = {
       --base-font-size: 11.7cqw;
     }
   `,
+  next_h_from_minute: 16,
   lines: [
     {
       'het is': {},
@@ -19,26 +20,26 @@ export const clockDefinition: ClockDefinition = {
     {
       over: { m: [5, 10, 15, 35, 40] },
       half: { m: [20, 25, 30, 35, 40] },
-      een: { h: [1], next_h_from_minute: 16 },
+      een: { h: [1] },
     },
     {
-      twee: { h: [2], next_h_from_minute: 16 },
-      drie: { h: [3], next_h_from_minute: 16 },
-      vier: { h: [4], next_h_from_minute: 16 },
+      twee: { h: [2] },
+      drie: { h: [3] },
+      vier: { h: [4] },
     },
     {
-      vijf: { h: [5], next_h_from_minute: 16 },
-      zes: { h: [6], next_h_from_minute: 16 },
-      zeven: { h: [7], next_h_from_minute: 16 },
+      vijf: { h: [5] },
+      zes: { h: [6] },
+      zeven: { h: [7] },
     },
     {
-      acht: { h: [8], next_h_from_minute: 16 },
-      negen: { h: [9], next_h_from_minute: 16 },
-      tien: { h: [10], next_h_from_minute: 16 },
+      acht: { h: [8] },
+      negen: { h: [9] },
+      tien: { h: [10] },
     },
     {
-      elf: { h: [11], next_h_from_minute: 16 },
-      twaalf: { h: [0], next_h_from_minute: 16 },
+      elf: { h: [11] },
+      twaalf: { h: [0] },
       uur: { m: [0] },
     },
   ],
