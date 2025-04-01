@@ -287,12 +287,9 @@ export class GcClockWords extends LitElement {
   /**
    * Rendering
    */
-  private renderWords(
-    words: ClockLine
-  ): TemplateResult[] {
+  private renderWords(words: ClockLine): TemplateResult[] {
     return Object.entries(words).map(([word, condition]) => {
-      const isActive =
-        this.isHour(condition.h) && this.isMinute(condition.m);
+      const isActive = this.isHour(condition.h) && this.isMinute(condition.m);
 
       return html`<div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">
         ${word}
@@ -319,8 +316,8 @@ export class GcClockWords extends LitElement {
     return html`
       <ha-card class="gcclock-words">
         ${this._lineDefs.lines.map(
-      (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
-    )}
+          (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
+        )}
       </ha-card>
     `;
   }
