@@ -1,6 +1,7 @@
 import { ClockDefinition } from '../types/ClockDefinition';
 
 export const clockDefinition: ClockDefinition = {
+  next_h_from_minute: 31,
   lines: [
     {
       "it's": {},
@@ -15,26 +16,26 @@ export const clockDefinition: ClockDefinition = {
     {
       to: { m: [35, 40, 45, 50, 55] },
       past: { m: [5, 10, 15, 20, 25, 30] },
-      one: { h: [1], next_h_from_minute: 31 },
-      two: { h: [2], next_h_from_minute: 31 },
+      one: { h: [1] },
+      two: { h: [2] },
     },
     {
-      three: { h: [3], next_h_from_minute: 31 },
-      four: { h: [4], next_h_from_minute: 31 },
-      five: { h: [5], next_h_from_minute: 31 },
+      three: { h: [3] },
+      four: { h: [4] },
+      five: { h: [5] },
     },
     {
-      six: { h: [6], next_h_from_minute: 31 },
-      seven: { h: [7], next_h_from_minute: 31 },
-      eight: { h: [8], next_h_from_minute: 31 },
+      six: { h: [6] },
+      seven: { h: [7] },
+      eight: { h: [8] },
     },
     {
-      nine: { h: [9], next_h_from_minute: 31 },
-      ten: { h: [10], next_h_from_minute: 31 },
-      eleven: { h: [11], next_h_from_minute: 31 },
+      nine: { h: [9] },
+      ten: { h: [10] },
+      eleven: { h: [11] },
     },
     {
-      twelve: { h: [0], next_h_from_minute: 31 },
+      twelve: { h: [0] },
       "o'clock": { m: [0] },
     },
   ],
