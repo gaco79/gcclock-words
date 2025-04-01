@@ -10,6 +10,8 @@ import { CSSResult, html, LitElement, PropertyValues, TemplateResult } from 'lit
 import { DEFAULT_CONFIG } from './const';
 import styles from './style';
 import { GcclockWordsCardConfig } from './types/config';
+import { ClockDefinition, ClockLine } from './types/ClockDefinition';
+import { clockDefinition } from './lang/en-GB';
 
 @customElement('gcclock-words')
 export class GcClockWords extends LitElement {
@@ -250,11 +252,11 @@ export class GcClockWords extends LitElement {
 
   // #region Clock functions
 
-  private isHour(hour?: number[], shift?: number): boolean {
+  private isHour(hour?: number[]): boolean {
     if (hour === undefined) return true;
 
     const currentHour = this.currentTime[0];
-    const shouldShift = shift !== undefined && this.min5 >= shift;
+    const shouldShift = this.min5 >= this.lineDefs.next_h_from_minute;
     const adjustedHour = (currentHour + (shouldShift ? 1 : 0)) % 12;
 
     return hour.includes(adjustedHour);
@@ -277,11 +279,11 @@ export class GcClockWords extends LitElement {
    * Rendering
    */
   private renderWords(
-    words: Record<string, { h?: number[]; m?: number[]; next_h_from_minute?: number }>
+    words: ClockLine
   ): TemplateResult[] {
     return Object.entries(words).map(([word, condition]) => {
       const isActive =
-        this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m);
+        this.isHour(condition.h) && this.isMinute(condition.m);
 
       return html`<div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">
         ${word}
@@ -305,13 +307,11 @@ export class GcClockWords extends LitElement {
       `;
     }
 
-    const lineDefs = LINE_DEFS[this._language] || LINE_DEFS['en-GB'];
-
     return html`
       <ha-card class="gcclock-words">
-        ${lineDefs.lines.map(
-          (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
-        )}
+        ${this.lineDefs.lines.map(
+      (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
+    )}
       </ha-card>
     `;
   }
@@ -319,6 +319,10 @@ export class GcClockWords extends LitElement {
   // #endregion
 
   // #region Getters
+
+  get lineDefs(): ClockDefinition {
+    return LINE_DEFS[this._language] || LINE_DEFS['en-GB'];
+  }
 
   get _highlightTextColor(): string {
     return this.config.highlight_text_color ?? DEFAULT_CONFIG.highlight_text_color;
