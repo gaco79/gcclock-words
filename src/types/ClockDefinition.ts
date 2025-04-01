@@ -7,7 +7,7 @@ interface WordCondition {
 }
 
 /** Definition for a single line in the clock */
-interface ClockLine {
+export interface ClockLine {
   [word: string]: WordCondition;
 }
 
