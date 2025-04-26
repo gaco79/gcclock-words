@@ -1,20 +1,21 @@
 # Word Clock
 
-![GitHub Release](https://img.shields.io/github/v/release/gaco79/gcclock-words)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/gaco79/gcclock-words)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gaco79/gcclock-words/cd.yml)
-[<img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow">](https://www.buymeacoffee.com/gaco79)
+![GitHub Release](https://img.shields.io/github/v/release/gaco79/gcclock-words?style=for-the-badge)
+![Downloads](https://img.shields.io/github/downloads/gaco79/gcclock-words/total?style=for-the-badge)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/gaco79/gcclock-words?style=for-the-badge)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/gaco79/gcclock-words/cd.yml?style=for-the-badge)
+[![BuyMeACoffee](https://img.shields.io/badge/-buy_me_a%C2%A0coffee-gray?logo=buy-me-a-coffee&style=for-the-badge)](https://www.buymeacoffee.com/gaco79)
 
 <p align="center">A clock for Home Assistant to show the time in words.</p>
 
 <p align="center">
-  <img width="20%" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-en.png" />
-  <img width="20%" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-de.png" />
-  <img width="20%" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-nl.png" />
-  <img width="20%" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-fr.png" />
+  <img height="200px" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-en.png" />
+  <img height="200px" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-de.png" />
+  <img height="200px" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-nl.png" />
+  <img height="200px" src="https://raw.githubusercontent.com/gaco79/gcclock-words/master/images/words-clock-fr.png" />
 </p>
 
-## 💾 Install
+## Installation
 
 ### HACS (recommended)
 
@@ -33,7 +34,7 @@ lovelace:
       type: module
 ```
 
-## 📐 Configuration
+## Configuration
 
 In Home Assistant click `Edit Dashboard`, then `Add Card` and scroll down to find "Custom: Time In Words". All options except language can be configured by the graphical editor.
 
