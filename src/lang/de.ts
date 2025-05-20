@@ -1,6 +1,7 @@
 import { ClockDefinition } from '../types/ClockDefinition';
 
 export const clockDefinition: ClockDefinition = {
+  next_h_from_minute: 29,
   lines: [
     {
       'es ist': {},
@@ -17,24 +18,24 @@ export const clockDefinition: ClockDefinition = {
       nach: { m: [5, 10, 15, 20, 25] },
     },
     {
-      ein: { h: [1], next_h_from_minute: 29 },
-      zwei: { h: [2], next_h_from_minute: 29 },
-      drei: { h: [3], next_h_from_minute: 29 },
-      vier: { h: [4], next_h_from_minute: 29 },
+      ein: { h: [1] },
+      zwei: { h: [2] },
+      drei: { h: [3] },
+      vier: { h: [4] },
     },
     {
-      fünf: { h: [5], next_h_from_minute: 29 },
-      sechs: { h: [6], next_h_from_minute: 29 },
-      sieben: { h: [7], next_h_from_minute: 29 },
+      fünf: { h: [5] },
+      sechs: { h: [6] },
+      sieben: { h: [7] },
     },
     {
-      acht: { h: [8], next_h_from_minute: 29 },
-      neun: { h: [9], next_h_from_minute: 29 },
-      zehn: { h: [10], next_h_from_minute: 29 },
+      acht: { h: [8] },
+      neun: { h: [9] },
+      zehn: { h: [10] },
     },
     {
-      elf: { h: [11], next_h_from_minute: 29 },
-      zwölf: { h: [0], next_h_from_minute: 29 },
+      elf: { h: [11] },
+      zwölf: { h: [0] },
       uhr: { m: [0] },
     },
   ],
