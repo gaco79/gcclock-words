@@ -69,4 +69,5 @@ export const clockDefinition: ClockDefinition = {
       МИНУТ: { m: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] }, // minutes
     },
   ],
+  next_h_from_minute: 99, // 99 means no next hour
 };
