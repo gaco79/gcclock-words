@@ -17,10 +17,10 @@ export const clockDefinition: ClockDefinition = {
       halb: { m: [25, 30, 35] },
     },
     {
-      eins: { h: [1], m: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55], next_h_from_minute: 24 },
+      eins: { h: [1], next_h_from_minute: 24 },
       zwei: { h: [2], next_h_from_minute: 24 },
       drei: { h: [3], next_h_from_minute: 24 },
-      vier: { h: [4], next_h_from_minute: 29 },
+      vier: { h: [4], next_h_from_minute: 24 },
     },
     {
       fünf: { h: [5], next_h_from_minute: 24 },
@@ -35,7 +35,6 @@ export const clockDefinition: ClockDefinition = {
     {
       elf: { h: [11], next_h_from_minute: 24 },
       zwölf: { h: [0], next_h_from_minute: 24 },
-      ein: { h: [1], m: [0] },
       uhr: { m: [0] },
     },
   ],
