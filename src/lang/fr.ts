@@ -6,6 +6,7 @@ export const clockDefinition: ClockDefinition = {
       --base-font-size: 10.5cqw;
     }
   `,
+  next_h_from_minute: 31,
   lines: [
     {
       'il est': {},
@@ -20,26 +21,26 @@ export const clockDefinition: ClockDefinition = {
     {
       moins: { m: [35, 40, 45, 50, 55] },
       et: { m: [5, 10, 15, 20, 25, 30] },
-      quatre: { h: [4], next_h_from_minute: 31 },
+      quatre: { h: [4] },
     },
     {
-      une: { h: [1], next_h_from_minute: 31 },
-      deux: { h: [2], next_h_from_minute: 31 },
-      trois: { h: [3], next_h_from_minute: 31 },
+      une: { h: [1] },
+      deux: { h: [2] },
+      trois: { h: [3] },
     },
     {
-      cinq: { h: [5], next_h_from_minute: 31 },
-      six: { h: [6], next_h_from_minute: 31 },
-      sept: { h: [7], next_h_from_minute: 31 },
-      dix: { h: [10], next_h_from_minute: 31 },
+      cinq: { h: [5] },
+      six: { h: [6] },
+      sept: { h: [7] },
+      dix: { h: [10] },
     },
     {
-      huit: { h: [8], next_h_from_minute: 31 },
-      neuf: { h: [9], next_h_from_minute: 31 },
-      onze: { h: [11], next_h_from_minute: 31 },
+      huit: { h: [8] },
+      neuf: { h: [9] },
+      onze: { h: [11] },
     },
     {
-      douze: { h: [0], next_h_from_minute: 31 },
+      douze: { h: [0] },
       heures: { m: [0] },
     },
   ],

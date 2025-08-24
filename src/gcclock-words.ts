@@ -10,6 +10,7 @@ import { CSSResult, html, LitElement, PropertyValues, TemplateResult } from 'lit
 import { DEFAULT_CONFIG } from './const';
 import styles from './style';
 import { GcclockWordsCardConfig } from './types/config';
+import { ClockDefinition, ClockLine } from './types/ClockDefinition';
 
 @customElement('gcclock-words')
 export class GcClockWords extends LitElement {
@@ -70,7 +71,6 @@ export class GcClockWords extends LitElement {
   }
 
   private updateLanguageStyles(): void {
-    // Remove old language attribute
     const oldLang = this.dataset.lang;
     if (oldLang) {
       this.removeAttribute(`data-lang`);
@@ -140,16 +140,27 @@ export class GcClockWords extends LitElement {
 
   // #region Event Handlers
 
+  private _clickHandler;
+  private _mouseDownHandler;
+  private _mouseUpHandler;
+  private _touchStartHandler;
+  private _touchEndHandler;
+
   _setupEventHandlers() {
     const card = this.shadowRoot?.querySelector('ha-card');
     if (!card) return;
 
-    card.addEventListener('click', this._onClick.bind(this));
+    this._clickHandler = this._onClick.bind(this);
+    this._mouseDownHandler = this._onMouseDown.bind(this);
+    this._mouseUpHandler = this._onMouseUp.bind(this);
+    this._touchStartHandler = this._onTouchStart.bind(this);
+    this._touchEndHandler = this._onTouchEnd.bind(this);
 
-    card.addEventListener('mousedown', this._onMouseDown.bind(this));
-    card.addEventListener('mouseup', this._onMouseUp.bind(this));
-    card.addEventListener('touchstart', this._onTouchStart.bind(this), { passive: true });
-    card.addEventListener('touchend', this._onTouchEnd.bind(this));
+    card.addEventListener('click', this._clickHandler);
+    card.addEventListener('mousedown', this._mouseDownHandler);
+    card.addEventListener('mouseup', this._mouseUpHandler);
+    card.addEventListener('touchstart', this._touchStartHandler, { passive: true });
+    card.addEventListener('touchend', this._touchEndHandler);
   }
 
   _onClick() {
@@ -239,22 +250,22 @@ export class GcClockWords extends LitElement {
     const card = this.shadowRoot?.querySelector('ha-card');
     if (!card) return;
 
-    card.removeEventListener('click', this._onClick.bind(this));
-    card.removeEventListener('mousedown', this._onMouseDown.bind(this));
-    card.removeEventListener('mouseup', this._onMouseUp.bind(this));
-    card.removeEventListener('touchstart', this._onTouchStart.bind(this));
-    card.removeEventListener('touchend', this._onTouchEnd.bind(this));
+    card.removeEventListener('click', this._clickHandler);
+    card.removeEventListener('mousedown', this._mouseDownHandler);
+    card.removeEventListener('mouseup', this._mouseUpHandler);
+    card.removeEventListener('touchstart', this._touchStartHandler);
+    card.removeEventListener('touchend', this._touchEndHandler);
   }
 
   // #endregion
 
   // #region Clock functions
 
-  private isHour(hour?: number[], shift?: number): boolean {
+  private isHour(hour?: number[]): boolean {
     if (hour === undefined) return true;
 
     const currentHour = this.currentTime[0];
-    const shouldShift = shift !== undefined && this.min5 >= shift;
+    const shouldShift = this.min5 >= this._lineDefs.next_h_from_minute;
     const adjustedHour = (currentHour + (shouldShift ? 1 : 0)) % 12;
 
     return hour.includes(adjustedHour);
@@ -276,12 +287,9 @@ export class GcClockWords extends LitElement {
   /**
    * Rendering
    */
-  private renderWords(
-    words: Record<string, { h?: number[]; m?: number[]; next_h_from_minute?: number }>
-  ): TemplateResult[] {
+  private renderWords(words: ClockLine): TemplateResult[] {
     return Object.entries(words).map(([word, condition]) => {
-      const isActive =
-        this.isHour(condition.h, condition.next_h_from_minute) && this.isMinute(condition.m);
+      const isActive = this.isHour(condition.h) && this.isMinute(condition.m);
 
       return html`<div class="word" style="${isActive ? this.activeStyle : this.inactiveStyle}">
         ${word}
@@ -305,11 +313,9 @@ export class GcClockWords extends LitElement {
       `;
     }
 
-    const lineDefs = LINE_DEFS[this._language] || LINE_DEFS['en-GB'];
-
     return html`
       <ha-card class="gcclock-words">
-        ${lineDefs.lines.map(
+        ${this._lineDefs.lines.map(
           (line, index) => html`<div class="line" key=${index}>${this.renderWords(line)}</div>`
         )}
       </ha-card>
@@ -319,6 +325,10 @@ export class GcClockWords extends LitElement {
   // #endregion
 
   // #region Getters
+
+  get _lineDefs(): ClockDefinition {
+    return LINE_DEFS[this._language] || LINE_DEFS['en-GB'];
+  }
 
   get _highlightTextColor(): string {
     return this.config.highlight_text_color ?? DEFAULT_CONFIG.highlight_text_color;
@@ -355,7 +365,7 @@ declare global {
   }
 }
 
-function loadCSS(url): void {
+function loadCSS(url: string): void {
   const link = document.createElement('link');
   link.type = 'text/css';
   link.rel = 'stylesheet';

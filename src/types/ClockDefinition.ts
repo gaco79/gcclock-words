@@ -2,14 +2,12 @@
 interface WordCondition {
   /** Hour condition */
   h?: number[];
-  /** Minute threshold to start using next hour */
-  next_h_from_minute?: number;
   /** Array of minute values (multiples of 5) */
   m?: number[];
 }
 
 /** Definition for a single line in the clock */
-interface ClockLine {
+export interface ClockLine {
   [word: string]: WordCondition;
 }
 
@@ -17,4 +15,6 @@ interface ClockLine {
 export type ClockDefinition = {
   styles?: string;
   lines: ClockLine[];
+  /** Minute threshold to start using next hour */
+  next_h_from_minute: number;
 };
