@@ -17,7 +17,7 @@ export const clockDefinition: ClockDefinition = {
       halb: { m: [25, 30, 35] },
     },
     {
-      eins: { h: [1], next_h_from_minute: 24 },
+      eins: { h: [1], m: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55], next_h_from_minute: 24 }, // "eins" used for times like "zehn nach eins" (minutes != 0)
       zwei: { h: [2], next_h_from_minute: 24 },
       drei: { h: [3], next_h_from_minute: 24 },
       vier: { h: [4], next_h_from_minute: 24 },
@@ -35,6 +35,7 @@ export const clockDefinition: ClockDefinition = {
     {
       elf: { h: [11], next_h_from_minute: 24 },
       zwölf: { h: [0], next_h_from_minute: 24 },
+      ein: { h: [1], m: [0] }, // "ein" used only for exact hour "ein uhr"
       uhr: { m: [0] },
     },
   ],
